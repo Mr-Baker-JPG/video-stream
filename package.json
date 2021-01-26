@@ -8,11 +8,22 @@
     "start": "next start"
   },
   "dependencies": {
+    "@prisma/client": "^2.15.0",
     "autoprefixer": "^10.2.1",
+    "ky-universal": "^0.9.1",
     "next": "10.0.5",
+    "next-absolute-url": "^1.2.2",
     "postcss": "^8.2.4",
+    "ramda": "^0.27.1",
     "react": "17.0.1",
     "react-dom": "17.0.1",
-    "tailwindcss": "^2.0.2"
+    "react-player": "^2.8.1",
+    "react-query": "^3.5.16",
+    "react-youtube": "^7.13.0",
+    "tailwindcss": "^2.0.2",
+    "youtube-player": "^5.5.2"
+  },
+  "devDependencies": {
+    "@prisma/cli": "^2.15.0"
   }
 }
