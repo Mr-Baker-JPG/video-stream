@@ -11,8 +11,11 @@
     "@prisma/client": "^2.15.0",
     "autoprefixer": "^10.2.1",
     "ky-universal": "^0.9.1",
+    "mailgun-js": "^0.22.0",
     "next": "10.0.5",
     "next-absolute-url": "^1.2.2",
+    "nodemailer": "^6.4.17",
+    "nodemailer-mailgun-transport": "^2.0.2",
     "postcss": "^8.2.4",
     "ramda": "^0.27.1",
     "react": "17.0.1",
@@ -24,6 +27,9 @@
     "youtube-player": "^5.5.2"
   },
   "devDependencies": {
-    "@prisma/cli": "^2.15.0"
+    "@prisma/cli": "^2.15.0",
+    "@types/node": "^14.14.22",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.3"
   }
 }

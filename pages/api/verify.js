@@ -1,12 +1,13 @@
-import { verifyEmail } from "../../lib/index.js"
+import { Email } from "../../lib"
 export default async (req, res) => {
   const { method, body } = req
   const email = JSON.parse(body).email
 
   switch (method) {
     case "POST":
-      const isVerified = await verifyEmail(email)
+      const isVerified = await Email.verifyEmail(email)
       if (isVerified) {
+        Email.sendEmail(email)
         res.status(200).json({ msg: `Authorized email: ${email}` })
         return
       }
