@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@prisma/client": "^2.15.0",
+    "@tailwindcss/forms": "^0.2.1",
     "autoprefixer": "^10.2.1",
     "ky-universal": "^0.9.1",
     "mailgun-js": "^0.22.0",

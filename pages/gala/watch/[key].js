@@ -5,8 +5,7 @@ import { useRouter } from "next/router"
 import YouTube from "react-youtube"
 import ReactPlayer from "react-player/youtube"
 
-import { PrismaClient } from "@prisma/client"
-const prisma = new PrismaClient()
+import { DB } from "../../../lib"
 
 import styles from "../../../styles/Home.module.css"
 import Header from "../../../components/Header"
@@ -75,16 +74,9 @@ export async function getServerSideProps(context) {
   const key = context.query.key
   const data = { url: url, id: id }
 
-  try {
-    const linkExists = await prisma.links.count({
-      where: {
-        key,
-      },
-    })
-    if (linkExists) {
-      return { props: { data } }
-    }
-  } catch (e) {
+  if (await DB.hasActiveKey(key)) {
+    return { props: { data } }
+  } else {
     return { props: { err: `Key is invalid: ${key}` } }
   }
 }

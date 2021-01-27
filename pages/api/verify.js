@@ -1,4 +1,4 @@
-import { Email } from "../../lib"
+import { Email, DB } from "../../lib"
 export default async (req, res) => {
   const { method, body } = req
   const email = JSON.parse(body).email
@@ -7,11 +7,18 @@ export default async (req, res) => {
     case "POST":
       const isVerified = await Email.verifyEmail(email)
       if (isVerified) {
-        Email.sendEmail(email)
-        res.status(200).json({ msg: `Authorized email: ${email}` })
+        // get new Key
+        const link = await DB.setEmailRecord(email)
+        Email.sendGalaEmail({ email, key: link.key })
+        res
+          .status(200)
+          .json({ type: "SUCCESS", msg: `New login link emailed to: ${email}` })
         return
       }
-      res.status(401).json({ msg: `Unauthorized email: ${email}` })
+      res.status(401).json({
+        type: "FAILURE",
+        msg: `${email} is not found in the system.  Please try again.`,
+      })
       break
     default:
       res.setHeader("Allow", ["POST"])
