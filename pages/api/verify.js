@@ -8,11 +8,19 @@ export default async (req, res) => {
       const isVerified = await Email.verifyEmail(email)
       if (isVerified) {
         // get new Key
-        const link = await DB.setEmailRecord(email)
-        Email.sendGalaEmail({ email, key: link.key })
-        res
-          .status(200)
-          .json({ type: "SUCCESS", msg: `New login link emailed to: ${email}` })
+        try {
+          const link = await DB.setEmailRecord(email)
+          Email.sendGalaEmail({ email, key: link.key })
+          res.status(200).json({
+            type: "SUCCESS",
+            msg: `New login link emailed to: ${email}`,
+          })
+        } catch (err) {
+          res.status(500).json({
+            type: "FAILURE",
+            msg: `There was an error.  Please try again.`,
+          })
+        }
         return
       }
       res.status(401).json({
