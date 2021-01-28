@@ -266,3 +266,33 @@ input[type="range"].audio:focus::-ms-fill-upper {
   top: 0;
   left: 0;
 }
+
+#headerBackground {
+  background: linear-gradient(#10366b, #072246);
+  border-bottom: 5px solid rgba(255, 255, 255, 0.05);
+  box-sizing: border-box;
+  position: relative;
+  height: 237px;
+  z-index: 99;
+}
+
+/* #header {
+  position: relative;
+  width: 1195px;
+  height: 237px;
+  margin: 0 auto 0 auto;
+  border: 0px solid #fff;
+  border-bottom: none;
+  background-color: transparent;
+  box-shadow: 0px 0px 0px 0px #000;
+} */
+
+@media (min-width: 701px) {
+  #headerBackground:before {
+    content: url(/headerCrest.png);
+    position: absolute;
+    top: 0px;
+    width: 100%;
+    /* left: 350px; */
+  }
+}

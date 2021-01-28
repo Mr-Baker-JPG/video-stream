@@ -9,6 +9,7 @@ module.exports = {
       gray: colors.trueGray,
       blue: colors.blue,
       white: colors.white,
+      black: colors.black,
     },
     fontSize: {
       xss: ".5rem",
@@ -29,6 +30,10 @@ module.exports = {
     extend: {
       outline: {
         red: "1px dashed #7F1D1D",
+      },
+      colors: {
+        "first-blue": "#10366b",
+        "last-blue": "#072246",
       },
     },
   },
