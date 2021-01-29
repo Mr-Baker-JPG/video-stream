@@ -49,7 +49,9 @@ export default function Home() {
             </div>
             <div className="md:w-1/2">
               <h3 className="inline-block w-auto pt-4 mb-4 font-serif text-xl border-b border-red-900 md:pt-0 ">
-                2021 Veritas Lecture and Gala Dinner
+                <Link href="/gala">
+                  <a href="/gala">2021 Veritas Lecture and Gala Dinner</a>
+                </Link>
               </h3>
               <p className="text-sm font-light leading-7 ">
                 John Paul the Great Academy is honored to welcome Fr. Donald

@@ -39,11 +39,30 @@ function Gala() {
         </div>
         <section>
           <div
-            className="h-24 bg-left bg-no-repeat bg-auto bg-cover md:h-36 "
-            style={{ backgroundImage: "url(/images/jpg.jpg)" }}
+            className="h-32 bg-left bg-no-repeat bg-auto bg-cover md:h-56 "
+            style={{
+              backgroundImage: "url(/images/school.jpg)",
+              backgroundPositionY: "80%",
+            }}
           ></div>
         </section>
       </div>
+      <main className="container flex flex-col px-8">
+        <img src="/images/gala.jpg" className="flex" />
+        <p className="flex">
+          John Paul the Great Academy is honored to welcome Fr. Donald Calloway,
+          MIC, as the 14th Annual Veritas Lecture & Gala Guest Speaker. Fr.
+          Calloway, a convert to Catholicism, is a member of the Congregation of
+          Marian Fathers of the Immaculate Conception. Before his conversion to
+          Catholicism, he was a high school dropout who had been kicked out of a
+          foreign country, institutionalized twice, and thrown in jail multiple
+          times. After his radical conversion he earned a B.A. in Philosophy and
+          Theology from the Franciscan University of Steubenville, M.Div. and
+          S.T.B. degrees from the Dominican House of Studies in Washington, DC,
+          and an S.T.L. in Mariology from the International Marian Research
+          Institute in Dayton, Ohio.
+        </p>
+      </main>
       <Footer />
       <ScrollToTop />
     </div>
