@@ -78,7 +78,7 @@ function Events() {
       <section>
         <div
           className="bg-center bg-no-repeat bg-auto bg-cover h-44 md:h-96"
-          style={{ backgroundImage: "url(jpg.jpg)" }}
+          style={{ backgroundImage: "url(/images/jpg.jpg)" }}
         ></div>
       </section>
       <main className="container w-full px-4 py-6 mx-auto sm:w-4/6 md:w-3/5 lg:w-3/6 xl:w-96">

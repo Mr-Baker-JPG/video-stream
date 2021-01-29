@@ -17,7 +17,7 @@ function Events() {
       <section>
         <div
           className="bg-center bg-no-repeat bg-auto bg-cover h-44 md:h-96"
-          style={{ backgroundImage: "url(jpg.jpg)" }}
+          style={{ backgroundImage: "url(/images/jpg.jpg)" }}
         ></div>
       </section>
       <main className="pb-10">March 15</main>

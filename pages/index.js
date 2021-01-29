@@ -18,11 +18,7 @@ export default function Home() {
       <section>
         <div className="overflow-hidden md:h-96">
           <video autoPlay={true} width="250" loop muted className="w-full ">
-            <source
-              type="video/mp4"
-              src="jpg-splash-vimeo.mp4"
-              data-src="splash-vimeo.mp4"
-            />
+            <source type="video/mp4" src="/videos/jpg-splash-vimeo.mp4" />
           </video>
         </div>
       </section>
@@ -49,7 +45,7 @@ export default function Home() {
 
           <div className="flex flex-col mt-10 md:flex-row md:space-x-12">
             <div className="md:w-1/2">
-              <img src="gala.jpg" />
+              <img src="/images/gala.jpg" />
             </div>
             <div className="md:w-1/2">
               <h3 className="inline-block w-auto pt-4 mb-4 font-serif text-xl border-b border-red-900 md:pt-0 ">
@@ -74,7 +70,7 @@ export default function Home() {
 
           <div className="flex flex-col mt-10 md:flex-row md:space-x-12">
             <div className="md:w-1/2">
-              <img src="capstone.png" />
+              <img src="/images/capstone.png" />
             </div>
             <div className="md:w-1/2">
               <h3 className="inline-block w-auto pt-4 mb-4 font-serif text-xl border-b border-red-900 md:pt-0 ">

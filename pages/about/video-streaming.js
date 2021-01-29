@@ -19,7 +19,7 @@ export default function Home() {
         <div className="overflow-hidden md:h-96">
           <div
             className="bg-center bg-no-repeat bg-auto bg-cover h-44 md:h-96"
-            style={{ backgroundImage: "url(/jpg.jpg)" }}
+            style={{ backgroundImage: "url(/images/jpg.jpg)" }}
           ></div>
         </div>
       </section>

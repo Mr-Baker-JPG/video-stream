@@ -18,7 +18,7 @@ function Header() {
         <div className="flex flex-row items-center justify-between ">
           <Link href="/">
             <a href="#" onClick={toggleMenu} className="focus:outline-red">
-              <img className="p-1 h-14 md:h-16" src="/video-logo.png" />
+              <img className="p-1 h-14 md:h-16" src="/images/video-logo.png" />
             </a>
           </Link>
           <a href="#" onClick={toggleMenu} className="text-white">
@@ -91,7 +91,10 @@ function Header() {
         <div className="flex">
           <Link href="/">
             <a href="#" className="focus:outline-red">
-              <img className="h-10 p-1 md:h-16" src="/video-logo-dk.png" />
+              <img
+                className="h-10 p-1 md:h-16"
+                src="/images/video-logo-dk.png"
+              />
             </a>
           </Link>
         </div>

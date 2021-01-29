@@ -31,7 +31,7 @@ function Gala() {
         <div className="relative pt-4 border-b-4 border-white border-opacity-5 from-first-blue to-last-blue bg-gradient-to-b">
           <header id="header" className="container mx-auto border-white">
             <div>
-              <img className="px-4 mx-auto" src="/gala-logo.png" />
+              <img className="px-4 mx-auto" src="/images/gala-logo.png" />
             </div>
             <div>LINKS</div>
           </header>
@@ -39,7 +39,7 @@ function Gala() {
         <section>
           <div
             className="h-24 bg-left bg-no-repeat bg-auto bg-cover md:h-36 "
-            style={{ backgroundImage: "url(/jpg.jpg)" }}
+            style={{ backgroundImage: "url(/images/jpg.jpg)" }}
           ></div>
         </section>
       </div>
