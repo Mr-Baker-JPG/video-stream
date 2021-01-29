@@ -15,6 +15,7 @@ export default async (req, res) => {
             msg: `New login link emailed to: ${email}`,
           })
         } catch (err) {
+          console.warn(err)
           res.status(500).json({
             type: "FAILURE",
             msg: `There was an error.  Please try again.`,
