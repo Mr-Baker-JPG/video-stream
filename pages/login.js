@@ -12,12 +12,16 @@ import { ReactQueryDevtools } from "react-query/devtools"
 const STATUS_UNSUBMITTED = "STATUS_UNSUBMITTED"
 const STATUS_SUCCESS = "STATUS_SUCCESS"
 const STATUS_FAILURE = "STATUS_FAILURE"
+const STATUS_DISABLED = "STATUS_DISABLED"
+const DISABLE = "DISABLE"
 const RESET = "RESET"
 const SUCCESS = "SUCCESS"
 const FAILURE = "FAILURE"
 
 const statusReducer = (state, action) => {
   switch (action.type) {
+    case DISABLE:
+      return { ...state, status: STATUS_DISABLED }
     case RESET:
       return { ...state, status: STATUS_UNSUBMITTED, msg: "" }
     case SUCCESS:
@@ -38,6 +42,7 @@ function Events() {
 
   const submit = async e => {
     e.preventDefault()
+    dispatch({ type: DISABLE })
     // const queryClient = new QueryClient()
 
     const email = e.target.elements.email.value
@@ -105,8 +110,8 @@ function Events() {
               disabled={state.status !== STATUS_UNSUBMITTED}
               className={`relative flex justify-center w-full px-4 py-2 text-sm font-medium text-white  border border-transparent rounded-md group  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${
                 state.status !== STATUS_UNSUBMITTED
-                  ? "bg-gray-300 hover:bg-gray-300"
-                  : "bg-blue-600 hover:bg-blue-700"
+                  ? "bg-gray-300 hover:bg-gray-300 cursor-not-allowed"
+                  : "bg-blue-600 hover:bg-blue-700 cursor-pointer"
               }`}
             >
               <span className="absolute inset-y-0 left-0 flex items-center pl-3">

@@ -7,10 +7,9 @@ export default async (req, res) => {
     case "POST":
       const isVerified = await Email.verifyEmail(email)
       if (isVerified) {
-        // get new Key
         try {
           const link = await DB.setEmailRecord(email)
-          Email.sendGalaEmail({ email, key: link.key })
+          await Email.sendGalaEmail({ email, key: link.key })
           res.status(200).json({
             type: "SUCCESS",
             msg: `New login link emailed to: ${email}`,
