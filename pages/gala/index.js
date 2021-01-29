@@ -27,6 +27,7 @@ function Gala() {
         <title>Events :: Login</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <div>
         <div className="relative pt-4 border-b-4 border-white border-opacity-5 from-first-blue to-last-blue bg-gradient-to-b">
           <header id="header" className="container mx-auto border-white">
@@ -43,25 +44,6 @@ function Gala() {
           ></div>
         </section>
       </div>
-      <main className="container flex flex-col px-4 mx-auto md:flex-row">
-        <nav className="flex w-full my-4 border border-black">
-          <ul className="flex flex-col justify-between w-full">
-            <li className="w-full font-light text-gray-300 from-first-blue to-last-blue bg-gradient-to-b">
-              Program
-            </li>
-            <li className="w-full font-light text-gray-300 from-first-blue to-last-blue bg-gradient-to-b">
-              Donate
-            </li>
-            <li className="w-full font-light text-gray-300 from-first-blue to-last-blue bg-gradient-to-b">
-              JPGAcademy.org
-            </li>
-          </ul>
-        </nav>
-        <div className="flex flex-col">
-          <PlayerMine />
-          <div className="flex border border-black">Sponsors</div>
-        </div>
-      </main>
       <Footer />
       <ScrollToTop />
     </div>

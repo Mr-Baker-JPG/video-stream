@@ -12,10 +12,10 @@ import Footer from "../../../components/Footer"
 import ScrollToTop from "../../../components/ScrollToTop"
 import PlayerMine from "../../../components/PlayerMine"
 
-function Watch(props) {
+function Watch({ data: { message, id = null } }) {
   // const router = useRouter()
   // const { key } = router.query
-  console.log(props)
+
   // const id = data?.id
 
   return (
@@ -32,7 +32,31 @@ function Watch(props) {
         ></div>
       </section>
 
-      <PlayerMine videoId="ADY8cqXYYIw" />
+      <main className="container flex flex-col px-4 mx-auto md:flex-row">
+        {!id ? (
+          <div>
+            <h2 className="text-2xl font-bold">Invalid key</h2>
+          </div>
+        ) : (
+          <nav className="flex w-full my-4 border border-black">
+            <ul className="flex flex-col justify-between w-full">
+              <li className="w-full font-light text-gray-300 from-first-blue to-last-blue bg-gradient-to-b">
+                Program
+              </li>
+              <li className="w-full font-light text-gray-300 from-first-blue to-last-blue bg-gradient-to-b">
+                Donate
+              </li>
+              <li className="w-full font-light text-gray-300 from-first-blue to-last-blue bg-gradient-to-b">
+                JPGAcademy.org
+              </li>
+            </ul>
+          </nav>
+        )}
+        <div className="flex flex-col">
+          {id ? <PlayerMine videoId={id} /> : <img src="/images/school.jpg" />}
+          <div className="flex border border-black">Sponsors</div>
+        </div>
+      </main>
 
       <Footer />
       <ScrollToTop />
@@ -44,13 +68,17 @@ export async function getServerSideProps(context) {
   const url = "https://www.youtube.com/watch?v=ADY8cqXYYIw"
   const id = "ADY8cqXYYIw"
 
+  console.log(
+    "CONTEXT",
+    context.req.headers["x-real-ip"] || context.req.connection.remoteAddress
+  )
   const key = context.query.key
-  const data = { url: url, id: id }
+  const data = { message: `Successfully logged in with: ${key}`, id: id }
 
   if (await DB.hasActiveKey(key)) {
     return { props: { data } }
   } else {
-    return { props: { err: `Key is invalid: ${key}` } }
+    return { props: { data: { message: `Key is invalid: ${key}` } } }
   }
 }
 
