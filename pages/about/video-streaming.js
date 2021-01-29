@@ -36,8 +36,11 @@ export default function Home() {
           password, and enjoy!
         </p>
         <p>
-          <b>CAUTION:</b> These links will only work on one device, so do NOT
-          share with other households or you may be locked out of the content.
+          <b>CAUTION:</b>{" "}
+          <span className="text-gray-600 underline">
+            These links will only work on one device, so do NOT share with other
+            households or you may be locked out of the content.
+          </span>
         </p>
         <p>
           Many people get the most out of watching streaming content by
