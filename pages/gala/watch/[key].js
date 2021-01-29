@@ -68,14 +68,16 @@ export async function getServerSideProps(context) {
   const url = "https://www.youtube.com/watch?v=ADY8cqXYYIw"
   const id = "ADY8cqXYYIw"
 
-  console.log(
-    "CONTEXT",
+  const ip =
     context.req.headers["x-real-ip"] || context.req.connection.remoteAddress
-  )
+
+  console.log("CONTEXT", ip)
   const key = context.query.key
   const data = { message: `Successfully logged in with: ${key}`, id: id }
 
+  // check hasActiveKey and if IP is invalid, if IP is invalid, but key is, send to login screen
   if (await DB.hasActiveKey(key)) {
+    await DB.logIp(ip)
     return { props: { data } }
   } else {
     return { props: { data: { message: `Key is invalid: ${key}` } } }
