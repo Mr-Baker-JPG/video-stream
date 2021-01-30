@@ -296,3 +296,181 @@ input[type="range"].audio:focus::-ms-fill-upper {
     /* left: 350px; */
   }
 }
+
+/* Donation Form */
+.wzstepsinfonpanel ul {
+  @appy flex flex-col;
+}
+
+.wzstepsinfonpanel {
+  @apply py-7;
+  counter-reset: donation;
+}
+
+.wzstepsinfonpanel li {
+  @apply font-bold text-gray-400;
+}
+.wzstepsinfonpanel ul {
+  @apply flex space-x-10;
+}
+
+li.stepenabled {
+  @apply text-gray-800;
+}
+
+.wzstepsinfonpanel li::before {
+  content: counter(donation);
+  counter-increment: donation;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  padding: 4px 8px;
+  background: #fff;
+  text-align: center;
+  margin-right: 2px;
+  @apply border border-gray-400;
+}
+.wzstepsinfonpanel li.stepenabled::before {
+  @apply border border-gray-800;
+}
+
+/* #cv_genform form {
+  @apply p-8;
+} */
+
+#cvfctrl300 strong,
+#cvfctrl290 strong,
+#cvfctrl302 strong {
+  @apply font-serif text-2xl font-thin text-black mb-7;
+}
+
+#cvfctrl223 > label {
+  @apply hidden;
+}
+
+#cvfctrl223 > div {
+  @apply mb-7;
+}
+#cvfctrl223 > div > div {
+  @apply grid grid-cols-3 gap-7;
+}
+#cvfctrl223 > div > div > label {
+  @apply p-4 text-center border border-black hover:bg-red-500 hover:text-white focus:outline-red;
+}
+
+#cvfctrl223 > div > div > label.active {
+  @apply p-4 text-center text-white bg-red-500 border border-black;
+}
+
+#cvfctrl224 {
+  @apply w-full p-4 my-2 placeholder-opacity-0 border border-black;
+}
+
+#cvfctrl225 {
+  @apply mb-7;
+}
+
+#cvfctrl225 input.pointer.control-validate {
+  margin-right: 8px;
+  margin-bottom: 4px;
+}
+
+#cvfctrl227 {
+  @apply flex mt-4 space-x-2;
+}
+#cvfctrl227 > div {
+  @apply w-1/2;
+}
+
+input#cvfctrl228 {
+  @apply w-full p-4 my-2 border border-black;
+}
+
+#cvfctrl229 select {
+  @apply w-full p-4 my-2 border border-black;
+}
+
+#form-loading-bar {
+  @apply hidden;
+}
+
+.wzstepbuttonpanel button {
+  @apply p-4 px-16 my-2 border border-black;
+}
+
+#cvfctrl254 input,
+#cvfctrl263 input,
+#cvfctrl265 input,
+#cvfctrl268 input,
+#cvfctrl271 input,
+#cvfctrl274 input,
+#cvfctrl254 input,
+#cvfctrl254 select,
+#cvfctrl263 select,
+#cvfctrl265 select,
+#cvfctrl268 select,
+#cvfctrl271 select,
+#cvfctrl274 select,
+#cvfctrl254 select {
+  @apply w-full p-4 my-2 border border-black;
+}
+
+#cvfctrl155 {
+  @apply w-full p-4 my-2 border border-black;
+}
+
+#cvfctrl153 {
+  @apply grid grid-cols-2 gap-6 mb-4;
+}
+
+#cvfctrl153 .col-sm-6 {
+  @apply col-span-2;
+}
+
+#cvfctrl153 input {
+  @apply w-full p-4 my-2 border border-black;
+}
+
+#cvfctrl278 {
+  @apply mb-4;
+}
+
+#cvfctrl278 input {
+  @apply mr-2;
+}
+
+#cvf_submit {
+  @apply w-full p-4 mt-4 text-white bg-blue-800;
+}
+
+.error-message {
+  @apply text-red-700;
+}
+
+.required::after {
+  content: "*";
+  @apply ml-1 font-bold;
+}
+
+#cv_errorsummary {
+  @apply hidden;
+}
+
+button.actWizardSwitchStepBack::before {
+  content: "←";
+  @apply mr-2;
+}
+
+button.actWizardSwitchStepNext::after {
+  content: "→";
+  @apply ml-2;
+}
+button.actWizardSwitchStepNext {
+  @apply ml-4;
+}
+
+input[type="radio"] {
+  opacity: 0;
+  position: fixed;
+  width: 0;
+}

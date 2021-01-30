@@ -6,6 +6,7 @@ import styles from "../styles/Home.module.css"
 import Header from "../components/Header"
 import Footer from "../components/Footer"
 import ScrollToTop from "../components/ScrollToTop"
+import DonateForm from "../components/DonateForm"
 
 export default function Home() {
   return (
@@ -30,14 +31,15 @@ export default function Home() {
           Church. Our mission depends on support from people like you.{" "}
         </p>
 
-        <iframe
+        {/* <iframe
           src="https://api.causeview.com/form/v2.1/cupertino/wizard/a0JC000000lC2t3MAC?lid=a0V3700000073rj&amp;cid=70137000000LaHt&amp;hostUrl=https%3A%2F%2Fd2y1pz2y630308.cloudfront.net%2F2409%2Fdocuments%2F2015%2F9%2Fform.html"
           width="100%"
           height="550"
           scrolling="yes"
           frameBorder="0"
           className="p-4 sm:px-10"
-        ></iframe>
+        ></iframe> */}
+        <DonateForm />
 
         <div className="p-5 mt-10 border-0 border-t sm:px-10">
           <h2 className="pt-4 font-serif text-4xl text-center">Featured</h2>
