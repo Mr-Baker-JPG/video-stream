@@ -1,6 +1,8 @@
 import React from "react"
 import absoluteUrl from "next-absolute-url"
 import ReactPlayer from "react-player/youtube"
+import screenfull from "screenfull"
+import { findDOMNode } from "react-dom"
 
 const loadYouTube = callback => {
   const scriptId = "youtubeJS"
@@ -107,6 +109,7 @@ const Player = ({ videoId }) => {
   })
   const [isPlaying, setIsPlaying] = React.useState(false)
   const playerRef = React.useRef()
+  const coverRef = React.useRef()
 
   // React.useEffect(() => {
   //   loadYouTube(() => {
@@ -146,14 +149,27 @@ const Player = ({ videoId }) => {
     // )
   }
 
+  const handleFullScreen = () => {
+    // coverRef.current.style.zIndex = 2147483647
+    // coverRef.current.style.bgColor = "black"
+    console.log(coverRef, coverRef.current)
+    coverRef.current.style.top = "0"
+    coverRef.current.style.left = "0"
+    coverRef.current.style.position = "fixed"
+    coverRef.current.style.width = "100%"
+    coverRef.current.style.height = "100%"
+    // screenfull.request(findDOMNode(playerRef.current))
+    // playerRef.current.oncontextmenu = "return false;"
+  }
+
   return (
     <div>
-      <div className="relative w-full h-full bg-gray-900">
+      <div ref={coverRef} className="relative w-full bg-gray-900">
         <div
           onClick={toggleVideoPlay}
-          className="absolute z-50 w-full h-full"
+          className="absolute z-50 video-wrapper"
         ></div>
-        <div>
+        <div className="video-wrapper">
           <ReactPlayer
             url={`https://www.youtube.com/watch?v=${videoId}`}
             // onPlay={}
@@ -229,7 +245,7 @@ const Player = ({ videoId }) => {
           ></input>
         </div>
         <div className="flex items-center">
-          <ExpandButton />
+          <FullScreenButton onClick={handleFullScreen} />
         </div>
         <div>
           {/* {videoState.position} {videoState.player.getDuration()}{" "}
@@ -318,7 +334,7 @@ const SoundButton = ({ onClick }) => (
   </button>
 )
 
-const ExpandButton = ({ onClick }) => (
+const FullScreenButton = ({ onClick }) => (
   <button onClick={onClick}>
     <svg
       className="w-6 h-6"

@@ -45,8 +45,11 @@ function Events() {
       <Header />
       <section>
         <div
-          className="bg-center bg-no-repeat bg-auto bg-cover h-44 md:h-96"
-          style={{ backgroundImage: "url(/images/jpg.jpg)" }}
+          className="h-32 bg-left bg-no-repeat bg-auto bg-cover md:h-56 "
+          style={{
+            backgroundImage: "url(/images/school.jpg)",
+            backgroundPositionY: "80%",
+          }}
         ></div>
       </section>
       <Login />

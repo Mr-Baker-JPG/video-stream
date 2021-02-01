@@ -65,66 +65,67 @@ function Login() {
   }
 
   return (
-    <main className="container w-full px-4 py-6 mx-auto sm:w-4/6 md:w-3/5 lg:w-3/6 xl:w-96">
-      <form onSubmit={submit}>
-        <div>
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Email
-          </label>
-          <div className="relative mt-1 rounded-md shadow-sm">
-            <input
-              type="email"
-              name="email"
-              id="email"
-              className="block w-full pr-12 border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 pl-7 sm:text-sm"
-            />
-          </div>
-          <div className="pt-2">
-            <p className="text-sm font-normal text-gray-400">
-              You should use the email you purchased your ticket with here.
-            </p>
-          </div>
+    <form
+      onSubmit={submit}
+      className="w-full py-6 mx-auto sm:w-4/6 md:w-3/5 lg:w-3/6 xl:w-96"
+    >
+      <div>
+        <label
+          htmlFor="email"
+          className="block text-sm font-medium text-gray-700"
+        >
+          Email
+        </label>
+        <div className="relative mt-1 rounded-md shadow-sm">
+          <input
+            type="email"
+            name="email"
+            id="email"
+            className="block w-full pr-12 border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 pl-7 sm:text-sm"
+          />
         </div>
-        <div className="py-4">
-          <button
-            type="submit"
-            disabled={state.status !== STATUS_UNSUBMITTED}
-            className={`relative flex justify-center w-full px-4 py-2 text-sm font-medium text-white  border border-transparent rounded-md group  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${
-              state.status !== STATUS_UNSUBMITTED
-                ? "bg-gray-300 hover:bg-gray-300 cursor-not-allowed"
-                : "bg-blue-600 hover:bg-blue-700 cursor-pointer"
-            }`}
-          >
-            <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-              <svg
-                className="w-5 h-5 text-blue-500 group-hover:text-blue-400"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                />
-              </svg>
-            </span>
-            Email Login Link
-          </button>
+        <div className="pt-2">
+          <p className="text-sm font-normal text-gray-400">
+            You should use the email you purchased your ticket with here.
+          </p>
         </div>
-        {state.status === STATUS_SUCCESS && (
-          <div className="font-bold text-blue-700">{state.msg}</div>
-        )}
-        {state.status === STATUS_FAILURE && (
-          <div className="font-bold text-red-700">{state.msg}</div>
-        )}
-      </form>
-    </main>
+      </div>
+      <div className="py-4">
+        <button
+          type="submit"
+          disabled={state.status !== STATUS_UNSUBMITTED}
+          className={`relative flex justify-center w-full px-4 py-2 text-sm font-medium text-white  border border-transparent rounded-md group  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${
+            state.status !== STATUS_UNSUBMITTED
+              ? "bg-gray-300 hover:bg-gray-300 cursor-not-allowed"
+              : "bg-blue-600 hover:bg-blue-700 cursor-pointer"
+          }`}
+        >
+          <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+            <svg
+              className="w-5 h-5 text-blue-500 group-hover:text-blue-400"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+              />
+            </svg>
+          </span>
+          Email Login Link
+        </button>
+      </div>
+      {state.status === STATUS_SUCCESS && (
+        <div className="font-bold text-blue-700">{state.msg}</div>
+      )}
+      {state.status === STATUS_FAILURE && (
+        <div className="font-bold text-red-700">{state.msg}</div>
+      )}
+    </form>
   )
 }
 

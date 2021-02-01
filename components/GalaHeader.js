@@ -2,11 +2,10 @@ function GalaHeader() {
   return (
     <div>
       <div className="relative pt-4 border-b-4 border-white border-opacity-5 from-first-blue to-last-blue bg-gradient-to-b">
-        <header id="header" className="container mx-auto border-white">
+        <header id="header" className="container pb-4 mx-auto border-white">
           <div>
             <img className="px-4 mx-auto" src="/images/gala-logo.png" />
           </div>
-          <div>LINKS</div>
         </header>
       </div>
       <section>
