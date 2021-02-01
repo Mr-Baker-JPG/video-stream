@@ -41,6 +41,7 @@ export const getServerSideProps = async context => {
 
 function Watch({ isKeyActive = false, isIpActive = false, id = false }) {
   console.log({ isKeyActive, isIpActive, id })
+  const isLive = false
   // const router = useRouter()
   // const { key } = router.query
 
@@ -55,12 +56,12 @@ function Watch({ isKeyActive = false, isIpActive = false, id = false }) {
       <GalaHeader />
 
       {!isKeyActive || !isIpActive ? (
-        <div className="container mx-auto">
+        <div className="container p-4 mx-auto sm:px-8 lg:w-1/2">
           <h2 className="text-2xl font-bold">
             Invalid {!isKeyActive ? "Key" : "Device"}
           </h2>
           {!isKeyActive ? (
-            <p>
+            <p className="">
               Your key is invalid. Please check your email for the link sent to
               you. Otherwise, use the form below to have a new link emailed to
               you.
@@ -73,28 +74,28 @@ function Watch({ isKeyActive = false, isIpActive = false, id = false }) {
           )}
           <Login />
         </div>
-      ) : (
-        <main className="container flex flex-col px-4 mx-auto md:flex-row">
+      ) : isLive ? (
+        <main className="container grid grid-cols-1 p-4 px-4 mx-auto mb-12 md:grid-cols-6 md:gap-7 lg:gird-cols-10">
           {!id ? (
             <div>
               <h2 className="text-2xl font-bold">Invalid key</h2>
             </div>
           ) : (
-            <nav className="flex w-full my-4 border border-black">
-              <ul className="flex flex-col justify-between w-full">
-                <li className="w-full font-light text-gray-300 from-first-blue to-last-blue bg-gradient-to-b">
+            <nav className="flex w-full mb-4 md:col-span-2 lg:grid-cols-2">
+              <ul className="flex flex-col w-full">
+                <li className="w-full p-2 font-light text-gray-300 from-first-blue to-last-blue bg-gradient-to-b">
                   Program
                 </li>
-                <li className="w-full font-light text-gray-300 from-first-blue to-last-blue bg-gradient-to-b">
+                <li className="w-full p-2 font-light text-gray-300 from-first-blue to-last-blue bg-gradient-to-b">
                   Donate
                 </li>
-                <li className="w-full font-light text-gray-300 from-first-blue to-last-blue bg-gradient-to-b">
+                <li className="w-full p-2 font-light text-gray-300 from-first-blue to-last-blue bg-gradient-to-b">
                   JPGAcademy.org
                 </li>
               </ul>
             </nav>
           )}
-          <div className="flex flex-col">
+          <div className="flex flex-col h-full space-y-7 md:col-span-4 lg:grid-cols-8">
             {id ? (
               <PlayerMine videoId={id} />
             ) : (
@@ -102,6 +103,12 @@ function Watch({ isKeyActive = false, isIpActive = false, id = false }) {
             )}
             <div className="flex border border-black">Sponsors</div>
           </div>
+        </main>
+      ) : (
+        <main className="container grid grid-cols-1 p-4 px-4 mx-auto mb-12 ">
+          <h2 className="text-2xl">
+            Check back on March 13, 2020 for the livestream.
+          </h2>
         </main>
       )}
       <Footer />
