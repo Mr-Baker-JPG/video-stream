@@ -268,10 +268,7 @@ input[type="range"].audio:focus::-ms-fill-upper {
 } */
 
 .video-wrapper {
-  /* width: auto;
-  height: auto; */
-  /* width: 480px;
-  height: 270px; */
+  /* position: relative; */
 }
 .react-player {
   padding-top: 56.25%;
@@ -488,4 +485,31 @@ input[type="radio"] {
   opacity: 0;
   position: fixed;
   width: 0;
+}
+
+input[type="range"].seeker {
+  -webkit-appearance: none;
+  width: 100%;
+}
+
+input[type="range"].seeker::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 1.2em;
+  cursor: pointer;
+  /* border: 1px solid #29334f; */
+  overflow: hidden;
+}
+
+input[type="range"].seeker::-webkit-slider-thumb {
+  height: 12px;
+  width: 100%;
+  cursor: pointer;
+  -webkit-appearance: none;
+  /* border-bottom: 1px solid #29334f; */
+  box-shadow: 0 0 0 red, -40px 40px 0 red;
+  @apply bg-gray-400;
+}
+
+input[type="range"].seeker:focus {
+  outline: none;
 }

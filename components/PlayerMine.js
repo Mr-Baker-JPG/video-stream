@@ -40,6 +40,8 @@ const VIDEO_TOGGLE_PLAY = "VIDEO_TOGGLE_PLAY"
 const videoReducer = (state, action) => {
   switch (action.type) {
     case VIDEO_TOGGLE_PLAY:
+      state.player.player.player.hideVideoInfo()
+      console.log(state.player.player.player.isVideoInfoVisible())
       if (state.isPlaying) {
         return { ...state, isPlaying: false }
       } else {
@@ -94,6 +96,13 @@ const videoReducer = (state, action) => {
   }
 }
 
+/*
+  FULLSCREEN Click
+  - 1.777777778 is the ratio
+  
+  * 
+*/
+
 const Player = ({ videoId }) => {
   const [loaded, setLoaded] = React.useState(false)
   const [player, setPlayer] = React.useState(null)
@@ -110,6 +119,7 @@ const Player = ({ videoId }) => {
   const [isPlaying, setIsPlaying] = React.useState(false)
   const playerRef = React.useRef()
   const coverRef = React.useRef()
+  const videoWrapperRef = React.useRef()
 
   // React.useEffect(() => {
   //   loadYouTube(() => {
@@ -149,6 +159,35 @@ const Player = ({ videoId }) => {
     // )
   }
 
+  React.useEffect(() => {
+    if (screenfull.isEnabled) {
+      screenfull.on("change", () => {
+        if (screenfull.isFullscreen) {
+          coverRef.current.style.position = "relative"
+
+          videoWrapperRef.current.style.position = "relative"
+          videoWrapperRef.current.style.top = "0"
+        }
+        // console.log("Am I fullscreen?", screenfull.isFullscreen ? "Yes" : "No")
+      })
+    }
+  }, [])
+
+  React.useEffect(() => {
+    console.log("WIDTH:", videoWrapperRef.current.offsetWidth)
+
+    const handleResize = () => {
+      console.log("WIDTH:", coverRef.current.offsetWidth)
+      videoWrapperRef.current.style.height = `${
+        coverRef.current.offsetWidth / 1.77777778
+      }px`
+      videoWrapperRef.current.style.width = `${coverRef.current.offsetWidth}px`
+    }
+    window.addEventListener("resize", handleResize)
+    handleResize()
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
+
   const handleFullScreen = () => {
     // coverRef.current.style.zIndex = 2147483647
     // coverRef.current.style.bgColor = "black"
@@ -156,10 +195,26 @@ const Player = ({ videoId }) => {
     coverRef.current.style.top = "0"
     coverRef.current.style.left = "0"
     coverRef.current.style.position = "fixed"
-    coverRef.current.style.width = "100%"
-    coverRef.current.style.height = "100%"
-    // screenfull.request(findDOMNode(playerRef.current))
-    // playerRef.current.oncontextmenu = "return false;"
+    // coverRef.current.style.width = "100%"
+    // coverRef.current.style.height = "100%"
+
+    console.log(
+      "TOP",
+      window.innerHeight,
+      window.innerWidth,
+      window.innerWidth / 1.77777778,
+      `${(window.innerHeight - window.innerWidth / 1.77777778) / 2}px`
+    )
+    videoWrapperRef.current.style.left = "0"
+    // videoWrapperRef.current.style.top = `${Math.round(
+    //   (window.innerHeight - window.innerWidth / 1.77777778) / 2
+    // )} px`
+    videoWrapperRef.current.style.top = "20px"
+    videoWrapperRef.current.style.position = "fixed"
+    // videoWrapperRef.current.style.width = "100%"
+    // videoWrapperRef.current.style.height = "100%"
+    console.log(videoWrapperRef.current)
+    screenfull.request(findDOMNode(coverRef.current))
   }
 
   return (
@@ -167,9 +222,9 @@ const Player = ({ videoId }) => {
       <div ref={coverRef} className="relative w-full bg-gray-900">
         <div
           onClick={toggleVideoPlay}
-          className="absolute z-50 video-wrapper"
+          className="absolute z-50 w-full h-full"
         ></div>
-        <div className="video-wrapper">
+        <div ref={videoWrapperRef} className="video-wrapper">
           <ReactPlayer
             url={`https://www.youtube.com/watch?v=${videoId}`}
             // onPlay={}
@@ -194,62 +249,53 @@ const Player = ({ videoId }) => {
               },
             }}
           />
-          {/* <div id={`player-${videoId}`}></div> */}
-        </div>
-        <div className="absolute bottom-0 right-0 h-10 p-1 bg-gray-500 md:h-16">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fillRule="evenodd"
-              d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
-              clipRule="evenodd"
-            />
-          </svg>
         </div>
       </div>
-      <div className="flex flex-row">
-        <div className="flex items-center">
-          {videoState.isPlaying ? (
-            <PauseButton onClick={() => videoDispatch({ type: VIDEO_PAUSE })} />
-          ) : (
-            <PlayButton onClick={() => videoDispatch({ type: VIDEO_PLAY })} />
-          )}
+      <input
+        value={videoState.position}
+        onChange={() => null}
+        type="range"
+        className="w-full seeker"
+      />
+      <div className="flex justify-between w-full py-1">
+        <div className="flex flex-row w-full space-x-2">
+          <div className="flex items-center">
+            {videoState.isPlaying ? (
+              <PauseButton
+                onClick={() => videoDispatch({ type: VIDEO_PAUSE })}
+              />
+            ) : (
+              <PlayButton onClick={() => videoDispatch({ type: VIDEO_PLAY })} />
+            )}
+          </div>
+          <div className="flex items-center space-x-1">
+            {videoState.volume <= 1 || videoState.isMuted ? (
+              <MutedButton
+                onClick={() => videoDispatch({ type: VIDEO_UNMUTE })}
+              />
+            ) : (
+              <SoundButton
+                onClick={() => videoDispatch({ type: VIDEO_MUTE })}
+              />
+            )}
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value={videoState.volume}
+              className="audio other"
+              onChange={e =>
+                videoDispatch({
+                  type: VIDEO_UPDATE_AUDIO,
+                  payload: e.target.value,
+                })
+              }
+              id="myRange"
+            ></input>
+          </div>
         </div>
-        <div className="flex items-center">
-          {videoState.volume <= 1 || videoState.isMuted ? (
-            <MutedButton
-              onClick={() => videoDispatch({ type: VIDEO_UNMUTE })}
-            />
-          ) : (
-            <SoundButton onClick={() => videoDispatch({ type: VIDEO_MUTE })} />
-          )}
-        </div>
-
-        <div className="flex items-center">
-          <input
-            type="range"
-            min="0"
-            max="100"
-            value={videoState.volume}
-            className="audio other"
-            onChange={e =>
-              videoDispatch({
-                type: VIDEO_UPDATE_AUDIO,
-                payload: e.target.value,
-              })
-            }
-            id="myRange"
-          ></input>
-        </div>
-        <div className="flex items-center">
+        <div className="flex items-center justify-end w-full ">
           <FullScreenButton onClick={handleFullScreen} />
-        </div>
-        <div>
-          {/* {videoState.position} {videoState.player.getDuration()}{" "}
-          {videoState.player.getCurrentTime()} */}
         </div>
       </div>
     </div>
