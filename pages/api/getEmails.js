@@ -1,4 +1,4 @@
-import { getEmails } from "../../lib"
+import { getEmails } from "../../lib/index.js"
 export default async (req, res) => {
   if (req.method !== "POST") {
     res.statusCode = 500

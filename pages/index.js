@@ -23,7 +23,7 @@ export default function Home() {
           </video>
         </div>
       </section>
-      <main className="pb-10">
+      <main className="pb-10 lg:container lg:mx-auto">
         <p className="p-5 mt-10 text-sm font-light leading-7 border-0 border-t sm:px-10">
           John Paul the Great Academy is a small, independent, Catholic school
           that provides a rigorous classical education in liberal arts and

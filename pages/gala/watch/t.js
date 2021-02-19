@@ -70,7 +70,6 @@ function Watch({ isKeyActive = false, isIpActive = false, id = false }) {
         </nav>
         <div className="flex flex-col h-full space-y-7 md:col-span-4 lg:grid-cols-8">
           <PlayerMine videoId="ADY8cqXYYIw" />
-
           <div className="flex border border-black">Sponsors</div>
         </div>
       </main>

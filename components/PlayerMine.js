@@ -36,49 +36,79 @@ const VIDEO_UPDATE_POSITION = "VIDEO_UPDATE_POSITION"
 const VIDEO_SET_PLAYER = "VIDEO_SET_PLAYER"
 const VIDEO_SET_SIZE = "VIDEO_SET_SIZE"
 const VIDEO_TOGGLE_PLAY = "VIDEO_TOGGLE_PLAY"
+const VIDEO_START_SEEKING = "VIDEO_START_SEEKING"
+const VIDEO_STOP_SEEKING = "VIDEO_STOP_SEEKING"
+const VIDEO_SEEKING = "VIDEO_SEEKING"
 
 const videoReducer = (state, action) => {
   switch (action.type) {
     case VIDEO_TOGGLE_PLAY:
-      state.player.player.player.hideVideoInfo()
-      console.log(state.player.player.player.isVideoInfoVisible())
+      // state.player.player.player.hideVideoInfo()
       if (state.isPlaying) {
-        return { ...state, isPlaying: false }
+        return { ...state, isPlaying: false, wasPlaying: true }
       } else {
-        return { ...state, isPlaying: true }
+        return { ...state, isPlaying: true, wasPlaying: false }
       }
     case VIDEO_PLAY:
       if (state.player) {
-        return { ...state, isPlaying: true, position: "78%" }
+        return { ...state, isPlaying: true, wasPlaying: false, position: "78%" }
       }
       return { ...state }
     case VIDEO_PAUSE:
       if (state.player) {
-        return { ...state, isPlaying: false }
+        return { ...state, isPlaying: false, wasPlaying: true }
       }
       return { ...state }
     case VIDEO_MUTE:
-      return { ...state, isMuted: true, volume: 0 }
+      return {
+        ...state,
+        isMuted: true,
+        volume: 0,
+        prevVolume: Number(state.volume),
+      }
     case VIDEO_UNMUTE:
       return {
         ...state,
         isMuted: false,
-        volume: state.player.getVolume(),
+        volume: state.prevVolume,
       }
     case VIDEO_UPDATE_AUDIO:
-      state.player.setVolume(action.payload)
       return {
         ...state,
         isMuted: false,
-        volume: action.payload,
+        volume: Number(action.payload),
+        prevVolume: Number(action.payload),
       }
-    case VIDEO_UPDATE_POSITION:
+    case VIDEO_START_SEEKING:
       return {
         ...state,
-        position: state.player.getDuration()
-          ? state.player.getCurrentTime() / state.player.getDuration()
-          : 0,
+        seeking: true,
+        isPlaying: false,
+        wasPlaying: state.isPlaying,
       }
+    case VIDEO_SEEKING:
+      return {
+        ...state,
+        position: action.payload,
+        seeking: true,
+      }
+    case VIDEO_STOP_SEEKING:
+      console.log("STOP SEEKING", state)
+      return {
+        ...state,
+        position: action.payload,
+        seeking: false,
+        isPlaying: state.wasPlaying,
+      }
+    case VIDEO_UPDATE_POSITION:
+      console.log("UPDATE", state.seeking, action.payload)
+      return state.seeking
+        ? state
+        : {
+            ...state,
+            position: action.payload.played,
+            loaded: action.payload.loaded || state.loaded,
+          }
     case VIDEO_SET_PLAYER:
       console.log("Setting player")
       return {
@@ -107,17 +137,23 @@ const Player = ({ videoId }) => {
   const [loaded, setLoaded] = React.useState(false)
   const [player, setPlayer] = React.useState(null)
   const [videoState, videoDispatch] = React.useReducer(videoReducer, {
-    volume: 80,
+    volume: 0.8,
+    prevVolume: 0.8,
     isMuted: false,
     isPlaying: false,
+    wasPlaying: false,
+    loaded: 0,
     position: 0,
+    seeking: false,
     error: null,
     player: null,
     width: 0,
     height: 0,
   })
   const [isPlaying, setIsPlaying] = React.useState(false)
-  const playerRef = React.useRef()
+  const playerRef = player => {
+    setPlayer(player)
+  }
   const coverRef = React.useRef()
   const videoWrapperRef = React.useRef()
 
@@ -130,17 +166,13 @@ const Player = ({ videoId }) => {
   //   return () => videoState.player.destroy()
   // }, [videoId])
 
-  React.useEffect(() => {
-    videoDispatch({ type: VIDEO_SET_PLAYER, payload: playerRef.current.player })
-  }, [])
+  // React.useEffect(() => {
+  //   videoDispatch({ type: VIDEO_SET_PLAYER, payload: playerRef.current.player })
+  // }, [])
 
-  React.useEffect(() => {
-    console.log(`Player: `, videoState)
-  }, [player])
+  React.useEffect(() => {}, [player])
 
   const toggleVideoPlay = () => {
-    console.log("TOGGLE")
-    console.log(videoState)
     videoDispatch({ type: VIDEO_TOGGLE_PLAY })
   }
 
@@ -217,6 +249,34 @@ const Player = ({ videoId }) => {
     screenfull.request(findDOMNode(coverRef.current))
   }
 
+  const handleProgress = state => {
+    videoDispatch({
+      type: VIDEO_UPDATE_POSITION,
+      payload: { played: state.played, loaded: state.loaded },
+    })
+    // console.log(state)
+  }
+
+  const handleDuration = duration => {
+    console.log("onDuration", duration)
+  }
+
+  const handleSeekMouseDown = e => {
+    console.log("PRESSED MOUSE @", Math.round(e.target.value * 100) + "%")
+    videoDispatch({ type: VIDEO_START_SEEKING })
+  }
+
+  const handleSeekChange = e => {
+    console.log("SEEKED @", Math.round(e.target.value * 100) + "%")
+    videoDispatch({ type: VIDEO_SEEKING, payload: e.target.value })
+  }
+
+  const handleSeekMouseUp = e => {
+    console.log("LIFED MOUSE @", Math.round(videoState.position * 100) + "%")
+    videoDispatch({ type: VIDEO_STOP_SEEKING, payload: e.target.value })
+    player.seekTo(parseFloat(videoState.position))
+  }
+
   return (
     <div>
       <div ref={coverRef} className="relative w-full bg-gray-900">
@@ -233,6 +293,11 @@ const Player = ({ videoId }) => {
             onReady={onReady}
             played={videoState.played}
             playing={videoState.isPlaying}
+            volume={videoState.volume}
+            muted={videoState.isMuted}
+            onProgress={handleProgress}
+            onDuration={handleDuration}
+            onSeek={e => console.log("onSeek", e)}
             width="100%"
             height="100%"
             config={{
@@ -243,7 +308,7 @@ const Player = ({ videoId }) => {
                   disabledkb: 1,
                   autoplay: 0,
                   modestbranding: 1,
-                  // origin: "http://localhost:3000",
+                  origin: process.env.NEXT_PUBLIC_ORIGIN,
                   rel: 0,
                 },
               },
@@ -251,12 +316,59 @@ const Player = ({ videoId }) => {
           />
         </div>
       </div>
-      <input
-        value={videoState.position}
-        onChange={() => null}
-        type="range"
-        className="w-full seeker"
-      />
+      {/* <div className="relative w-full p-0 m-0 bg-gray-600">
+        <input
+          name="videoSeeker"
+          value={videoState.position}
+          min={0}
+          max={0.999999}
+          step="any"
+          onMouseDown={handleSeekMouseDown}
+          onChange={handleSeekChange}
+          onMouseUp={handleSeekMouseUp}
+          type="range"
+          className="w-full seek"
+        />
+        <label class="hidden" htmlFor="videoSeeker">
+          Video Seeker
+        </label>
+      </div> */}
+      {/* TODO: Fixing the seeker */}
+      <div
+        className="relative z-50 w-full h-4 pt-1 bg-white cursor-pointer group "
+        onClick={e =>
+          videoDispatch({
+            type: VIDEO_UPDATE_POSITION,
+            payload: {
+              played: e.nativeEvent.offsetX / e.target.offsetWidth,
+              loaded: player.loaded,
+            },
+          })
+        }
+      >
+        <div className="flex h-2 mb-4 overflow-hidden text-xs bg-pink-200 ">
+          <div
+            style={{
+              width: `${Math.round(videoState.position * 1000000) / 10000}%`,
+            }}
+            className="flex flex-col justify-center text-center text-white bg-pink-500 shadow-none whitespace-nowrap"
+          ></div>
+          <div
+            className="absolute flex items-center w-3 h-3 m-0 bg-pink-500 rounded-full opacity-0 group-hover:opacity-100 "
+            style={{
+              bottom: "2px",
+              left: `${Math.round(videoState.position * 1000000) / 10000 - 1}%`,
+            }}
+          ></div>
+          <div
+            style={{
+              width: `${Math.round(videoState.loaded * 1000000) / 10000}%`,
+            }}
+            className="flex flex-col justify-center text-center text-white bg-gray-500 shadow-none whitespace-nowrap"
+          ></div>
+        </div>
+      </div>
+      {Math.round(videoState.position * 10000) / 100 + "%"}
       <div className="flex justify-between w-full py-1">
         <div className="flex flex-row w-full space-x-2">
           <div className="flex items-center">
@@ -269,7 +381,7 @@ const Player = ({ videoId }) => {
             )}
           </div>
           <div className="flex items-center space-x-1">
-            {videoState.volume <= 1 || videoState.isMuted ? (
+            {videoState.volume <= 0.001 || videoState.isMuted ? (
               <MutedButton
                 onClick={() => videoDispatch({ type: VIDEO_UNMUTE })}
               />
@@ -280,8 +392,9 @@ const Player = ({ videoId }) => {
             )}
             <input
               type="range"
-              min="0"
-              max="100"
+              min={0}
+              max={0.999999}
+              step="any"
               value={videoState.volume}
               className="audio other"
               onChange={e =>
