@@ -255,6 +255,9 @@ const Player = ({ videoId, setIsPlaying }) => {
     if (!width) {
       width = coverRef.current.offsetWidth
     }
+    if (!screenfull.isFullscreen && previousWidth > 0) {
+      width = previousWidth
+    }
     const height = calculateHeight(width)
     videoWrapperRef.current.style.height = `${height}px`
     videoWrapperRef.current.style.width = `${width}px`
@@ -264,6 +267,7 @@ const Player = ({ videoId, setIsPlaying }) => {
       }px`
     } else {
       videoWrapperRef.current.style.top = 0
+      console.log(coverRef.current.offsetWidth, previousWidth)
     }
   }
 
@@ -274,6 +278,7 @@ const Player = ({ videoId, setIsPlaying }) => {
   }, [width])
 
   const handleFullScreen = () => {
+    console.log("setting width", coverRef.current.offsetWidth)
     setPreviousWidth(coverRef.current.offsetWidth)
 
     screenfull.request(findDOMNode(coverRef.current))

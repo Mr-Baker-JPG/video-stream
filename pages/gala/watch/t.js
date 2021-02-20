@@ -59,7 +59,7 @@ function Watch({ isKeyActive = false, isIpActive = false, id = false }) {
       <GalaHeader />
       <div className="container h-full px-4 mx-auto my-8 md:px-0">
         <Tabs
-          className="flex flex-col md:space-x-8 md:flex-row"
+          className="flex flex-col md:space-x-8 md:flex-row lg:mx-8"
           forceRenderTabPanel={true}
         >
           <TabList className="grid grid-cols-1 mb-2 text-sm sm:grid-cols-4 md:mb-0 md:flex md:w-min-300 md:flex-col md:space-y-2">
