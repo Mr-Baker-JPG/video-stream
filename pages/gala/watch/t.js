@@ -23,7 +23,6 @@ export const getServerSideProps = async context => {
   const ip =
     context.req.headers["x-real-ip"] || context.req.connection.remoteAddress
 
-  console.log("CONTEXT", ip)
   const key = context.query.key
   // const data = { message: `Successfully logged in with: ${key}`, id: id }
 
