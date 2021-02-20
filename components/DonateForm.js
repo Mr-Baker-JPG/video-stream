@@ -66,7 +66,7 @@ function DonateForm() {
   }, [loaded])
 
   return (
-    <div className="p-8 m-4 border border-gray-300 md:flex md:flex-row ">
+    <div className="p-8 border border-gray-300 md:flex md:flex-row ">
       <link
         rel="stylesheet"
         href="https://impactapi.causeview.com/Thunder/Package/ThunderStylesSafe"

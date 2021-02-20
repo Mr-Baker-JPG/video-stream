@@ -309,6 +309,12 @@ input[type="range"].audio:focus::-ms-fill-upper {
   }
 }
 
+.react-tabs__tab-panel {
+  display: none;
+}
+.react-tabs__tab-panel.react-tabs__tab-panel--selected {
+  display: block;
+}
 /* Donation Form */
 
 input[type="radio"] {

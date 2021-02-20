@@ -335,7 +335,7 @@ const Player = ({ videoId }) => {
       </div> */}
       {/* TODO: Fixing the seeker */}
       <div
-        className="relative z-50 w-full h-4 pt-1 bg-white cursor-pointer group "
+        className="relative z-50 w-full h-4 pt-0 bg-white cursor-pointer group "
         onClick={e =>
           videoDispatch({
             type: VIDEO_UPDATE_POSITION,
@@ -368,7 +368,7 @@ const Player = ({ videoId }) => {
           ></div>
         </div>
       </div>
-      {Math.round(videoState.position * 10000) / 100 + "%"}
+      {/* {Math.round(videoState.position * 10000) / 100 + "%"} */}
       <div className="flex justify-between w-full py-1">
         <div className="flex flex-row w-full space-x-2">
           <div className="flex items-center">
