@@ -136,6 +136,7 @@ const videoReducer = (state, action) => {
 const Player = ({ videoId, setIsPlaying }) => {
   const [loaded, setLoaded] = React.useState(false)
   const [player, setPlayer] = React.useState(null)
+  const [previousWidth, setPreviousWidth] = React.useState(0)
   const [videoState, videoDispatch] = React.useReducer(videoReducer, {
     volume: 0.8,
     prevVolume: 0.8,
@@ -197,26 +198,32 @@ const Player = ({ videoId, setIsPlaying }) => {
     if (screenfull.isEnabled) {
       screenfull.on("change", () => {
         if (screenfull.isFullscreen) {
+          setPreviousWidth(coverRef.current.offsetWidth)
           coverRef.current.style.position = "relative"
 
           videoWrapperRef.current.style.position = "relative"
           videoWrapperRef.current.style.top = "0"
+        } else {
+          console.log("Exiting full screen")
+          handleResize(previousWidth)
         }
         // console.log("Am I fullscreen?", screenfull.isFullscreen ? "Yes" : "No")
       })
     }
   }, [])
 
+  const handleResize = (width = false) => {
+    if (!width) {
+      width = coverRef.current.offsetWidth
+    }
+    console.log("WIDTH:", width)
+    videoWrapperRef.current.style.height = `${width / 1.77777778}px`
+    videoWrapperRef.current.style.width = `${width}px`
+  }
+
   React.useEffect(() => {
     console.log("WIDTH:", videoWrapperRef.current.offsetWidth)
 
-    const handleResize = () => {
-      console.log("WIDTH:", coverRef.current.offsetWidth)
-      videoWrapperRef.current.style.height = `${
-        coverRef.current.offsetWidth / 1.77777778
-      }px`
-      videoWrapperRef.current.style.width = `${coverRef.current.offsetWidth}px`
-    }
     window.addEventListener("resize", handleResize)
     handleResize()
     return () => window.removeEventListener("resize", handleResize)

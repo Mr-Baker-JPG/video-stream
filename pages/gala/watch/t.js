@@ -58,7 +58,7 @@ function Watch({ isKeyActive = false, isIpActive = false, id = false }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <GalaHeader />
-      <div className="container h-full px-4 my-8 md:mx-auto md:px-0">
+      <div className="container h-full px-4 mx-auto my-8 md:px-0">
         <Tabs
           className="flex flex-col md:space-x-8 md:flex-row"
           forceRenderTabPanel={true}
