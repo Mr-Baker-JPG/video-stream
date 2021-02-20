@@ -58,28 +58,32 @@ function Watch({ isKeyActive = false, isIpActive = false, id = false }) {
 
   resetIdCounter()
 
-  const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSH_KEY, {
-    cluster: process.env.NEXT_PUBLIC_PUSH_CLUSTER,
-  })
+  React.useEffect(() => {
+    const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSH_KEY, {
+      cluster: process.env.NEXT_PUBLIC_PUSH_CLUSTER,
+    })
 
-  const channel = pusher.subscribe("gala2021")
+    const channel = pusher.subscribe("gala2021")
 
-  channel.bind("gala-event", function (dataFromServer) {
-    console.log(dataFromServer)
-    switch (dataFromServer.toString().toLowerCase()) {
-      case "livestream":
-        setTabIndex(0)
-        break
-      case "program":
-        setTabIndex(1)
-        break
-      case "donate":
-        setTabIndex(2)
-        break
-      default:
-        setTabIndex(0)
-        break
-    }
+    channel.bind("gala-event", function (dataFromServer) {
+      console.log(dataFromServer)
+      switch (dataFromServer.toString().toLowerCase()) {
+        case "livestream":
+          setTabIndex(0)
+          break
+        case "program":
+          setTabIndex(1)
+          break
+        case "donate":
+          setTabIndex(2)
+          break
+        default:
+          setTabIndex(0)
+          break
+      }
+    })
+
+    return () => pusher.disconnect()
   })
 
   return (
