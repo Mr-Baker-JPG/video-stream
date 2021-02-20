@@ -133,7 +133,7 @@ const videoReducer = (state, action) => {
   * 
 */
 
-const Player = ({ videoId }) => {
+const Player = ({ videoId, setIsPlaying }) => {
   const [loaded, setLoaded] = React.useState(false)
   const [player, setPlayer] = React.useState(null)
   const [videoState, videoDispatch] = React.useReducer(videoReducer, {
@@ -150,7 +150,7 @@ const Player = ({ videoId }) => {
     width: 0,
     height: 0,
   })
-  const [isPlaying, setIsPlaying] = React.useState(false)
+
   const playerRef = player => {
     setPlayer(player)
   }
@@ -173,10 +173,12 @@ const Player = ({ videoId }) => {
   React.useEffect(() => {}, [player])
 
   const toggleVideoPlay = () => {
+    setIsPlaying(state => !state)
     videoDispatch({ type: VIDEO_TOGGLE_PLAY })
   }
 
   const playVideo = () => {
+    setIsPlaying(true)
     videoDispatch({ type: VIDEO_PLAY })
   }
 
