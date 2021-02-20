@@ -4,6 +4,40 @@ import ReactPlayer from "react-player/youtube"
 import screenfull from "screenfull"
 import { findDOMNode } from "react-dom"
 
+function useCurrentWidth() {
+  const getWidth = () =>
+    window
+      ? window.innerWidth ||
+        document.documentElement.clientWidth ||
+        document.body.clientWidth
+      : false
+  // save current window width in the state object
+  let [width, setWidth] = React.useState(0)
+
+  // in this case useEffect will execute only once because
+  // it does not have any dependencies.
+  React.useEffect(() => {
+    // timeoutId for debounce mechanism
+    let timeoutId = null
+    const resizeListener = () => {
+      // prevent execution of previous setTimeout
+      clearTimeout(timeoutId)
+      // change width from the state object after 150 milliseconds
+      timeoutId = setTimeout(() => setWidth(getWidth()), 150)
+    }
+    // set resize listener
+    window.addEventListener("resize", resizeListener)
+
+    // clean up function
+    return () => {
+      // remove resize listener
+      window.removeEventListener("resize", resizeListener)
+    }
+  }, [])
+
+  return width
+}
+
 const loadYouTube = callback => {
   const scriptId = "youtubeJS"
   const existingScript = document.getElementById(scriptId)
@@ -136,6 +170,7 @@ const videoReducer = (state, action) => {
 const Player = ({ videoId, setIsPlaying }) => {
   const [loaded, setLoaded] = React.useState(false)
   const [player, setPlayer] = React.useState(null)
+  const width = useCurrentWidth()
   const [previousWidth, setPreviousWidth] = React.useState(0)
   const [videoState, videoDispatch] = React.useReducer(videoReducer, {
     volume: 0.8,
@@ -198,63 +233,52 @@ const Player = ({ videoId, setIsPlaying }) => {
     if (screenfull.isEnabled) {
       screenfull.on("change", () => {
         if (screenfull.isFullscreen) {
-          setPreviousWidth(coverRef.current.offsetWidth)
           coverRef.current.style.position = "relative"
-
           videoWrapperRef.current.style.position = "relative"
-          videoWrapperRef.current.style.top = "0"
+          videoWrapperRef.current.style.width = "100%"
+          const height = calculateHeight(videoWrapperRef.current.offsetWidth)
+          videoWrapperRef.current.style.height = `${height}px`
+          videoWrapperRef.current.style.top = `${
+            (window.outerHeight - height) / 2
+          }px`
         } else {
-          console.log("Exiting full screen")
-          handleResize(previousWidth)
+          videoWrapperRef.current.style.top = "0px"
+          if (!screenfull.isFullscreen) handleResize(previousWidth)
         }
         // console.log("Am I fullscreen?", screenfull.isFullscreen ? "Yes" : "No")
       })
     }
   }, [])
 
+  const calculateHeight = width => width / 1.77777778
   const handleResize = (width = false) => {
+    console.log("WIDTH", coverRef.current.offsetWidth)
     if (!width) {
       width = coverRef.current.offsetWidth
     }
-    console.log("WIDTH:", width)
-    videoWrapperRef.current.style.height = `${width / 1.77777778}px`
+    const height = calculateHeight(width)
+    videoWrapperRef.current.style.height = `${height}px`
     videoWrapperRef.current.style.width = `${width}px`
+    if (screenfull.isFullscreen) {
+      console.log("IS FULL")
+      videoWrapperRef.current.style.top = `${
+        (window.outerHeight - height) / 2
+      }px`
+      console.log(videoWrapperRef.current.style.top)
+    } else {
+      videoWrapperRef.current.style.top = 0
+    }
   }
 
   React.useEffect(() => {
-    console.log("WIDTH:", videoWrapperRef.current.offsetWidth)
-
     window.addEventListener("resize", handleResize)
     handleResize()
     return () => window.removeEventListener("resize", handleResize)
-  }, [])
+  }, [width])
 
   const handleFullScreen = () => {
-    // coverRef.current.style.zIndex = 2147483647
-    // coverRef.current.style.bgColor = "black"
-    console.log(coverRef, coverRef.current)
-    coverRef.current.style.top = "0"
-    coverRef.current.style.left = "0"
-    coverRef.current.style.position = "fixed"
-    // coverRef.current.style.width = "100%"
-    // coverRef.current.style.height = "100%"
+    setPreviousWidth(coverRef.current.offsetWidth)
 
-    console.log(
-      "TOP",
-      window.innerHeight,
-      window.innerWidth,
-      window.innerWidth / 1.77777778,
-      `${(window.innerHeight - window.innerWidth / 1.77777778) / 2}px`
-    )
-    videoWrapperRef.current.style.left = "0"
-    // videoWrapperRef.current.style.top = `${Math.round(
-    //   (window.innerHeight - window.innerWidth / 1.77777778) / 2
-    // )} px`
-    videoWrapperRef.current.style.top = "20px"
-    videoWrapperRef.current.style.position = "fixed"
-    // videoWrapperRef.current.style.width = "100%"
-    // videoWrapperRef.current.style.height = "100%"
-    console.log(videoWrapperRef.current)
     screenfull.request(findDOMNode(coverRef.current))
   }
 
@@ -263,7 +287,6 @@ const Player = ({ videoId, setIsPlaying }) => {
       type: VIDEO_UPDATE_POSITION,
       payload: { played: state.played, loaded: state.loaded },
     })
-    // console.log(state)
   }
 
   const handleDuration = duration => {
@@ -288,7 +311,10 @@ const Player = ({ videoId, setIsPlaying }) => {
 
   return (
     <div>
-      <div ref={coverRef} className="relative w-full bg-gray-900">
+      <div
+        ref={coverRef}
+        className="relative w-full bg-gray-900 md:w-full lg:w-full"
+      >
         <div
           onClick={toggleVideoPlay}
           className="absolute z-50 w-full h-full"
@@ -344,7 +370,7 @@ const Player = ({ videoId, setIsPlaying }) => {
       </div> */}
       {/* TODO: Fixing the seeker */}
       <div
-        className="relative z-50 w-full h-4 pt-0 bg-white cursor-pointer group "
+        className="relative z-50 w-full h-1 pt-0 bg-white cursor-pointer group "
         onClick={e =>
           videoDispatch({
             type: VIDEO_UPDATE_POSITION,
