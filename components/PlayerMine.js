@@ -194,19 +194,14 @@ const Player = ({ videoId, setIsPlaying }) => {
   const videoWrapperRef = React.useRef()
 
   // React.useEffect(() => {
-  //   loadYouTube(() => {
-  //     setLoaded(true)
-  //     window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady
-  //   })
-
-  //   return () => videoState.player.destroy()
-  // }, [videoId])
-
-  // React.useEffect(() => {
-  //   videoDispatch({ type: VIDEO_SET_PLAYER, payload: playerRef.current.player })
+  //   let timer = setInterval(() => {
+  //     console.log("checking...")
+  //   }, 1000)
+  //   return () => {
+  //     clearTimeout(timer)
+  //     timer = null
+  //   }
   // }, [])
-
-  React.useEffect(() => {}, [player])
 
   const toggleVideoPlay = () => {
     setIsPlaying(state => !state)

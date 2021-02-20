@@ -4,7 +4,18 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import DB from "../../../lib/db"
 import { Tab, Tabs, TabList, TabPanel, resetIdCounter } from "react-tabs"
-// import prisma from "../../../lib/db/prisma"
+import Pusher from "pusher-js"
+
+// const useSocket = (...args) => {
+//   const { current: socket } = React.useRef(io(...args))
+//   React.useEffect(() => {
+//     return () => {
+//       socket && socket.removeAllListeners()
+//       socket && socket.close()
+//     }
+//   }, [socket])
+//   return [socket]
+// }
 
 import styles from "../../../styles/Home.module.css"
 import GalaHeader from "../../../components/GalaHeader"
@@ -43,11 +54,33 @@ export const getServerSideProps = async context => {
 
 function Watch({ isKeyActive = false, isIpActive = false, id = false }) {
   const [isLive, setIsLive] = React.useState(false)
-  resetIdCounter()
-  // const router = useRouter()
-  // const { key } = router.query
+  const [tabIndex, setTabIndex] = React.useState(0)
 
-  // const id = data?.id
+  resetIdCounter()
+
+  const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSH_KEY, {
+    cluster: process.env.NEXT_PUBLIC_PUSH_CLUSTER,
+  })
+
+  const channel = pusher.subscribe("gala2021")
+
+  channel.bind("gala-event", function (dataFromServer) {
+    console.log(dataFromServer)
+    switch (dataFromServer.toString().toLowerCase()) {
+      case "livestream":
+        setTabIndex(0)
+        break
+      case "program":
+        setTabIndex(1)
+        break
+      case "donate":
+        setTabIndex(2)
+        break
+      default:
+        setTabIndex(0)
+        break
+    }
+  })
 
   return (
     <div className="bg-gray-50">
@@ -58,6 +91,8 @@ function Watch({ isKeyActive = false, isIpActive = false, id = false }) {
       <GalaHeader />
       <div className="container h-full px-4 mx-auto my-8 md:px-0">
         <Tabs
+          onSelect={(idx, last, event) => setTabIndex(idx)}
+          selectedIndex={tabIndex}
           className="flex flex-col md:space-x-8 md:flex-row lg:mx-8"
           forceRenderTabPanel={true}
         >
