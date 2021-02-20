@@ -135,7 +135,7 @@ const videoReducer = (state, action) => {
         isPlaying: state.wasPlaying,
       }
     case VIDEO_UPDATE_POSITION:
-      console.log("UPDATE", state.seeking, action.payload)
+      // console.log("UPDATE", state.seeking, action.payload)
       return state.seeking
         ? state
         : {
@@ -252,7 +252,6 @@ const Player = ({ videoId, setIsPlaying }) => {
 
   const calculateHeight = width => width / 1.77777778
   const handleResize = (width = false) => {
-    console.log("WIDTH", coverRef.current.offsetWidth)
     if (!width) {
       width = coverRef.current.offsetWidth
     }
@@ -260,11 +259,9 @@ const Player = ({ videoId, setIsPlaying }) => {
     videoWrapperRef.current.style.height = `${height}px`
     videoWrapperRef.current.style.width = `${width}px`
     if (screenfull.isFullscreen) {
-      console.log("IS FULL")
       videoWrapperRef.current.style.top = `${
         (window.outerHeight - height) / 2
       }px`
-      console.log(videoWrapperRef.current.style.top)
     } else {
       videoWrapperRef.current.style.top = 0
     }
@@ -290,7 +287,7 @@ const Player = ({ videoId, setIsPlaying }) => {
   }
 
   const handleDuration = duration => {
-    console.log("onDuration", duration)
+    // console.log("onDuration", duration)
   }
 
   const handleSeekMouseDown = e => {

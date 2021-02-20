@@ -43,7 +43,6 @@ export const getServerSideProps = async context => {
 }
 
 function Watch({ isKeyActive = false, isIpActive = false, id = false }) {
-  console.log({ isKeyActive, isIpActive, id })
   const [isLive, setIsLive] = React.useState(false)
   resetIdCounter()
   // const router = useRouter()
