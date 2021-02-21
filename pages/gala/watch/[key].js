@@ -21,25 +21,28 @@ export const getServerSideProps = async context => {
     context.req.headers["x-real-ip"] || context.req.connection.remoteAddress
 
   const key = context.query.key
+  console.log(key)
   // const data = { message: `Successfully logged in with: ${key}`, id: id }
 
   const check = await DB.checkKeyAndIp(key, ip)
   if (check.isKeyActive && check.isIpActive) {
-    return { props: { isKeyActive: true, isIpActive: true, id } }
+    return { props: { isKeyActive: true, isIpActive: true, id, craig: key } }
   }
 
   if (check.isKeyActive && !check.isIpActive) {
     // context.res.setHeader("Location", `/login`)
-    return { props: { isKeyActive: true, isIpActive: false } }
+    return { props: { isKeyActive: true, isIpActive: false, craig: key } }
   }
 
   return {
-    props: { data: { isKeyActive: false, isIpActive: false, id: false } },
+    props: {
+      data: { isKeyActive: false, isIpActive: false, id: false, craig: key },
+    },
   }
 }
 
-function Watch({ isKeyActive = false, isIpActive = false, id = false }) {
-  console.log({ isKeyActive, isIpActive, id })
+function Watch({ isKeyActive = false, isIpActive = false, id = false, craig }) {
+  console.log({ isKeyActive, isIpActive, id, craig })
   const isLive = false
   // const router = useRouter()
   // const { key } = router.query
@@ -49,7 +52,7 @@ function Watch({ isKeyActive = false, isIpActive = false, id = false }) {
   return (
     <div className="bg-gray-50">
       <Head>
-        <title>Events :: Login</title>
+        <title>Events :: JPG Gala 2021</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <GalaHeader />

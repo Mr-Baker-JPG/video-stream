@@ -4,18 +4,8 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import DB from "../../../lib/db"
 import { Tab, Tabs, TabList, TabPanel, resetIdCounter } from "react-tabs"
-import Pusher from "pusher-js"
-
-// const useSocket = (...args) => {
-//   const { current: socket } = React.useRef(io(...args))
-//   React.useEffect(() => {
-//     return () => {
-//       socket && socket.removeAllListeners()
-//       socket && socket.close()
-//     }
-//   }, [socket])
-//   return [socket]
-// }
+import socketIOClient from "socket.io-client"
+// import Pusher from "pusher-js"
 
 import styles from "../../../styles/Home.module.css"
 import GalaHeader from "../../../components/GalaHeader"
@@ -34,68 +24,97 @@ export const getServerSideProps = async context => {
   const ip =
     context.req.headers["x-real-ip"] || context.req.connection.remoteAddress
 
-  const key = context.query.key
+  const key = context.query.key || "TEST-KEY"
+  console.log(key)
   // const data = { message: `Successfully logged in with: ${key}`, id: id }
 
-  const check = await DB.checkKeyAndIp(key, ip)
-  if (check.isKeyActive && check.isIpActive) {
-    return { props: { isKeyActive: true, isIpActive: true, id } }
-  }
+  try {
+    const check = await DB.checkKeyAndIp(key, ip)
+    if (check.isKeyActive && check.isIpActive) {
+      return { props: { isKeyActive: true, isIpActive: true, id, token: key } }
+    }
 
-  if (check.isKeyActive && !check.isIpActive) {
-    // context.res.setHeader("Location", `/login`)
-    return { props: { isKeyActive: true, isIpActive: false } }
+    if (check.isKeyActive && !check.isIpActive) {
+      // context.res.setHeader("Location", `/login`)
+      return { props: { isKeyActive: true, isIpActive: false, token: key } }
+    }
+  } catch (error) {
+    // console.log(error)
   }
-
   return {
-    props: { data: { isKeyActive: false, isIpActive: false, id: false } },
+    props: {
+      isKeyActive: false,
+      isIpActive: false,
+      id: false,
+      token: key,
+    },
   }
 }
 
-function Watch({ isKeyActive = false, isIpActive = false, id = false }) {
+function Watch({ isKeyActive = false, isIpActive = false, id = false, token }) {
   const [isLive, setIsLive] = React.useState(false)
   const [tabIndex, setTabIndex] = React.useState(0)
+  const [socket, setSocket] = React.useState(false)
 
   resetIdCounter()
 
   React.useEffect(() => {
-    const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSH_KEY, {
-      cluster: process.env.NEXT_PUBLIC_PUSH_CLUSTER,
+    const socket = socketIOClient("http://localhost:3456", {
+      forceNew: true,
+      withCredentials: true,
+    })
+    setSocket(socket)
+
+    socket.on("gala2021", data => {
+      console.log(data)
     })
 
-    const channel = pusher.subscribe("gala2021")
+    return () => socket.close()
+  }, [])
 
-    channel.bind("gala-event", function (dataFromServer) {
-      console.log(dataFromServer)
-      switch (dataFromServer.toString().toLowerCase()) {
-        case "livestream":
-          setTabIndex(0)
-          break
-        case "program":
-          setTabIndex(1)
-          break
-        case "donate":
-          setTabIndex(2)
-          break
-        default:
-          setTabIndex(0)
-          break
-      }
-    })
+  const handleTabSelect = (idx, last, event) => {
+    setTabIndex(idx)
+    socket.emit("submitTab", `Tab ${idx} selected from ${token}`)
+  }
 
-    return () => pusher.disconnect()
-  })
+  // React.useEffect(() => {
+  //   const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSH_KEY, {
+  //     cluster: process.env.NEXT_PUBLIC_PUSH_CLUSTER,
+  //   })
+
+  //   const channel = pusher.subscribe("gala2021")
+
+  //   channel.bind("gala-event", function (dataFromServer) {
+  //     console.log(dataFromServer)
+  //     switch (dataFromServer.toString().toLowerCase()) {
+  //       case "livestream":
+  //         setTabIndex(0)
+  //         break
+  //       case "program":
+  //         setTabIndex(1)
+  //         break
+  //       case "donate":
+  //         setTabIndex(2)
+  //         break
+  //       default:
+  //         setTabIndex(0)
+  //         break
+  //     }
+  //   })
+
+  //   return () => pusher.disconnect()
+  // })
 
   return (
     <div className="bg-gray-50">
       <Head>
-        <title>Events :: Login</title>
+        <title>Events :: JPG Gala</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <GalaHeader />
       <div className="container h-full px-4 mx-auto my-8 md:px-0">
         <Tabs
-          onSelect={(idx, last, event) => setTabIndex(idx)}
+          onSelect={handleTabSelect}
           selectedIndex={tabIndex}
           className="flex flex-col md:space-x-8 md:flex-row lg:mx-8"
           forceRenderTabPanel={true}
