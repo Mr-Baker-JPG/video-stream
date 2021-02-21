@@ -53,7 +53,6 @@ const Controller = () => {
               }`}
             >
               <p>LiveStream</p>
-              {isLive ? <PlayingIcon className="text-green-600" /> : null}
             </div>
             <div
               onClick={() => handleControlledTabSelect(1)}
@@ -80,9 +79,10 @@ const Controller = () => {
         <div className="grid w-full grid-cols-3 gap-2">
           <UserStatus />
           <div className="p-2 border border-gray-300 shadow-lg">
-            Signal Logs
+            <h2 className="font-bold">Signal Logs</h2>
           </div>
           <div className="p-2 border border-gray-300 shadow-lg">
+            <h2 className="font-bold">Player</h2>
             <PlayerMine setIsPlaying={setIsLive} videoId="5qap5aO4i9A" />
           </div>
         </div>
