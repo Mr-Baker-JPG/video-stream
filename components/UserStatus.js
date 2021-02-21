@@ -1,3 +1,6 @@
+import * as React from "react"
+import DB from "../lib/db"
+
 const data = [
   {
     email: "User 1",
@@ -45,13 +48,34 @@ const data = [
 
 const userCountLoggedIn = users => users.filter(u => u.loggedIn).length
 const UserStatus = () => {
+  const [emails, setEmails] = React.useState([])
+  React.useEffect(() => {
+    const getEmails = async () => {
+      const emails = await (await fetch("/api/control/getEmails")).json()
+      console.log(emails)
+      setEmails(
+        emails.map(email => ({
+          ...email,
+          loggedIn: false,
+          currentTab: "",
+          isPlaying: "",
+          time: "",
+        }))
+      )
+    }
+    getEmails()
+  }, [])
+
   return (
     <div className="p-2 border border-gray-300 shadow-lg">
-      <h2 className="font-bold">
-        User Status :: {userCountLoggedIn(data)} Users logged in
-      </h2>
+      <div className="flex flex-row place-content-between">
+        <h2 className="font-bold ">User Status</h2>
+        <p className="italic">
+          {`${userCountLoggedIn(emails)}/${emails.length}`} Users logged in
+        </p>
+      </div>
       <dl className="overflow-x-scroll border h-96">
-        {data.map(user => (
+        {emails.map(user => (
           <div key={user.email}>
             <dt className="flex flex-row items-center p-2 space-x-4 bg-gray-300">
               {user.loggedIn ? (
@@ -59,15 +83,25 @@ const UserStatus = () => {
               ) : (
                 <LoggedOutIcon className="w-4 h-4 text-red-700" />
               )}
-              <h3>{user.email}</h3>
+              <div className="flex flex-row items-stretch justify-between">
+                <h3>{user.email}</h3>
+                <a>Send Link</a>
+              </div>
             </dt>
-            <dd className="flex flex-row p-2 space-x-2">
+            <dd className="flex flex-row p-2 space-x-2 text-xs">
               {user.loggedIn ? (
-                <>
-                  <div>Current Tab: </div>
-                  <div>Is Playing: </div>
-                  <div>Time: </div>
-                </>
+                <div className="grid w-full grid-cols-3">
+                  <div>
+                    <span className="font-bold">Tab:</span> {user.currentTab}
+                  </div>
+                  <div>
+                    <span className="font-bold">Status:</span>{" "}
+                    {user.isPlaying ? "Playing" : "Off"}
+                  </div>
+                  <div>
+                    <span className="font-bold">Time:</span>{" "}
+                  </div>
+                </div>
               ) : null}
             </dd>
           </div>
