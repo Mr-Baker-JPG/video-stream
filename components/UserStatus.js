@@ -46,8 +46,10 @@ const data = [
 const userCountLoggedIn = users => users.filter(u => u.loggedIn).length
 const UserStatus = () => {
   return (
-    <div>
-      <h2>User Status :: {userCountLoggedIn(data)} Users logged in</h2>
+    <div className="p-2 border border-gray-300 shadow-lg">
+      <h2 className="font-bold">
+        User Status :: {userCountLoggedIn(data)} Users logged in
+      </h2>
       <dl className="overflow-x-scroll border h-96">
         {data.map(user => (
           <div key={user.email}>
