@@ -49,7 +49,7 @@ export const getServerSideProps = async context => {
 }
 
 function Watch({ isKeyActive = false, isIpActive = false, id = false, token }) {
-  const isLive = true
+  const isLive = false
 
   return (
     <div className="bg-gray-50">
