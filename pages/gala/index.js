@@ -1,11 +1,11 @@
 import React from "react"
 import Head from "next/head"
 import Link from "next/link"
+import Image from "next/image"
 import styles from "../../styles/Home.module.css"
 import GalaHeader from "../../components/GalaHeader"
 import Footer from "../../components/Footer"
-import ScrollToTop from "../../components/ScrollToTop"
-import PlayerMine from "../../components/PlayerMine"
+import RegisterForm from "components/RegisterForm"
 
 function Gala() {
   const submit = async e => {
@@ -29,9 +29,16 @@ function Gala() {
       </Head>
 
       <GalaHeader />
-      <main className="container flex flex-col px-8">
-        <img src="/images/gala.jpg" className="flex" />
-        <p className="flex">
+      <main className="container flex flex-col w-full px-8 py-8 mx-auto space-x-4 md:flex-row">
+        <div className="w-full md:w-3/5">
+          <Image
+            src="/images/gala.jpg"
+            layout="responsive"
+            height={300}
+            width={500}
+          />
+        </div>
+        <p className="w-full md:w-2/5">
           John Paul the Great Academy is honored to welcome Fr. Donald Calloway,
           MIC, as the 14th Annual Veritas Lecture & Gala Guest Speaker. Fr.
           Calloway, a convert to Catholicism, is a member of the Congregation of
@@ -45,8 +52,9 @@ function Gala() {
           Institute in Dayton, Ohio.
         </p>
       </main>
+
+      <RegisterForm />
       <Footer />
-      <ScrollToTop />
     </div>
   )
 }

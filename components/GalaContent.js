@@ -1,26 +1,39 @@
 import React from "react"
-import Head from "next/head"
-import Link from "next/link"
-import { useRouter } from "next/router"
-import DB from "../../../lib/db"
 import { Tab, Tabs, TabList, TabPanel, resetIdCounter } from "react-tabs"
-import socketIOClient from "socket.io-client"
+import useClientSocket from "hooks/useClientSocket"
 // import Pusher from "pusher-js"
 
-import styles from "../../../styles/Home.module.css"
-import GalaHeader from "../../../components/GalaHeader"
-import Footer from "../../../components/Footer"
-import ScrollToTop from "../../../components/ScrollToTop"
-import PlayerMine from "../../../components/PlayerMine"
-import Login from "../../../components/Login"
-import DonateForm from "../../../components/DonateForm"
+import styles from "styles/Home.module.css"
+import PlayerMine from "components/PlayerMine"
+import dynamic from "next/dynamic"
+const Program = dynamic(() => import("components/Program"), { ssr: false })
+// import Program from "components/Program"
+import DonateForm from "components/DonateForm"
+import PlayingIcon from "components/icons/Play"
 
-const GalaContent = () => {
+const GalaContent = ({ token }) => {
+  const { isPlaying, setIsPlaying, sendToken, tab, setTab } = useClientSocket(
+    token
+  )
+  const isLive = false
+  const [time, setTime] = React.useState(0)
+
+  resetIdCounter()
+
+  React.useEffect(() => {
+    sendToken(time)
+  }, [isPlaying, tab, time])
+
+  const handleTabSelect = (idx, last, event) => {
+    setTab(idx)
+    sendToken(time)
+  }
+
   return (
     <div className="container h-full px-4 mx-auto my-8 md:px-0">
       <Tabs
         onSelect={handleTabSelect}
-        selectedIndex={tabIndex}
+        selectedIndex={tab}
         className="flex flex-col md:space-x-8 md:flex-row lg:mx-8"
         forceRenderTabPanel={true}
       >
@@ -28,7 +41,9 @@ const GalaContent = () => {
           <Tab>
             <div className="flex flex-row items-center justify-between px-4 py-2 text-gray-300 bg-blue-900 border rounded-md shadow-xl cursor-pointer hover:opacity-90">
               <p>LiveStream</p>
-              {isLive ? <PlayingIcon className="text-green-600" /> : null}
+              {isPlaying ? (
+                <PlayingIcon filled className="w-4 h-4 text-green-600" />
+              ) : null}
             </div>
           </Tab>
           <Tab>
@@ -55,12 +70,15 @@ const GalaContent = () => {
           <TabPanel>
             <PlayerMine
               setTime={setTime}
-              setIsPlaying={setIsLive}
+              setIsPlaying={setIsPlaying}
+              forcePlay={isPlaying}
               videoId="5qap5aO4i9A"
             />
             <div className="flex border border-black">Sponsors</div>
           </TabPanel>
-          <TabPanel>Programming</TabPanel>
+          <TabPanel>
+            <Program />
+          </TabPanel>
           <TabPanel>
             <DonateForm />
           </TabPanel>
