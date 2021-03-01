@@ -45,25 +45,31 @@ function DonateForm() {
       },
     })
   }, [])
+  const form = React.useRef()
 
   React.useEffect(() => {
     if (loaded.customScripts && loaded.thunderScripts) {
-      window.$cvf(function () {
+      window.$cvf(async function () {
         CVF.Setup = { Allocation: null, RuntimeOverrides: [{ wz: "1" }] }
         CVF.Setup.Allocation = CVF.CreateAllocationOverride(
           "",
           "a0M37000000N2mKEAS"
         )
-        CVF.Init(
+        await CVF.Init(
           "34dbed70-83ad-4df9-abd8-93c4ccb6bf82",
           "cv_genform",
           null,
           "https://impactapi.causeview.com/Thunder/",
           "https://impactapi.causeview.com/Vortex/"
         )
+        form = document.getElementById("cvfctrl224")
       })
     }
   }, [loaded])
+
+  React.useEffect(() => {
+    console.log(form)
+  }, [form])
 
   return (
     <div className="p-8 border border-gray-300 md:flex md:flex-row ">
@@ -78,13 +84,16 @@ function DonateForm() {
         type="text/css"
       />
       <p className="mb-8 font-sans text-sm font-normal leading-loose text-gray-600 lg:w-2/5 md:w-1/3 md:border-r md:mr-8 md:pr-8">
-        As a nonprofit organization, John Paul the Great Academy relies on the
-        support of its donors, who play a large part in both the present and the
-        future of the Academy. Your gift today supports our innovative
-        programming and education initiatives that build the leaders of
-        tomorrow.
+        The St. Joseph Scholarship Fund provides financial assistance for a JPG
+        family who would otherwise be unable to receive a Catholic classical
+        education. Each year, more than 50% of our student body requires
+        significant financial assistance in order to attend JPG. We believe
+        that, as a Catholic school, our mission lies in serving and supporting
+        our families as much as possible, regardless of their income level. We
+        pursue this mission in faith, trusting in God's providence and in the
+        generosity of our benefactors.
       </p>
-      <div id="cv_genform" className="loading"></div>
+      <div id="cv_genform" className=" loading"></div>
     </div>
   )
 }
