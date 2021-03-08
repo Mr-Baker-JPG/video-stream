@@ -1,3 +1,5 @@
+const { default: Link } = require("next/link")
+
 const Footer = () => {
   return (
     <footer className="flex flex-col pt-8 bg-gray-400 place-items-center">
@@ -33,9 +35,17 @@ const Footer = () => {
       </div>
       <nav className="text-xs">
         <ul className="flex flex-col space-y-2 text-center">
-          <li>Tickets and Events</li>
-          <li>Visit</li>
-          <li>Contact Us</li>
+          <li>
+            <Link href="/gala">
+              <a>Tickets and Events</a>
+            </Link>
+          </li>
+          <li>
+            <a href="https://jpgacademy.org">Visit</a>
+          </li>
+          <li>
+            <a href="https://jpgacademy.org/#contactus">Contact Us</a>
+          </li>
         </ul>
       </nav>
       <div className="px-4 py-8 font-thin uppercase text-xss">

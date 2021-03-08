@@ -412,3 +412,10 @@ input[type="range"].seeker:focus::-ms-fill-lower {
 input[type="range"].seeker:focus::-ms-fill-upper {
   background: #ccc;
 }
+
+/** PDF */
+
+.columns.is-mobile > .column.is-3 {
+  flex: none;
+  width: 30%;
+}

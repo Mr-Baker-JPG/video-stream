@@ -10,10 +10,12 @@ const Program = dynamic(() => import("components/Program"), { ssr: false })
 // import Program from "components/Program"
 import DonateForm from "components/DonateForm"
 import PlayingIcon from "components/icons/Play"
+import Sponsors from "./Sponsors"
 
-const GalaContent = ({ token }) => {
+const GalaContent = ({ token, email }) => {
   const { isPlaying, setIsPlaying, sendToken, tab, setTab } = useClientSocket(
-    token
+    token,
+    email
   )
   const isLive = false
   const [time, setTime] = React.useState(0)
@@ -21,16 +23,24 @@ const GalaContent = ({ token }) => {
   resetIdCounter()
 
   React.useEffect(() => {
-    sendToken(time)
-  }, [isPlaying, tab, time])
+    sendToken(time, "playing")
+  }, [isPlaying])
+
+  React.useEffect(() => {
+    sendToken(time, "tab")
+  }, [tab])
+
+  React.useEffect(() => {
+    sendToken(time, "time")
+  }, [time])
 
   const handleTabSelect = (idx, last, event) => {
     setTab(idx)
-    sendToken(time)
+    sendToken(time, "tab")
   }
 
   return (
-    <div className="container h-full px-4 mx-auto my-8 md:px-0">
+    <div className="container h-full px-4 mx-auto my-8 md:px-4">
       <Tabs
         onSelect={handleTabSelect}
         selectedIndex={tab}
@@ -74,7 +84,6 @@ const GalaContent = ({ token }) => {
               forcePlay={isPlaying}
               videoId="5qap5aO4i9A"
             />
-            <div className="flex border border-black">Sponsors</div>
           </TabPanel>
           <TabPanel>
             <Program />
@@ -84,6 +93,8 @@ const GalaContent = ({ token }) => {
           </TabPanel>
         </div>
       </Tabs>
+
+      <Sponsors />
     </div>
   )
 }

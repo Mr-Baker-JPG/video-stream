@@ -41,7 +41,7 @@ function Header() {
         <nav className="flex flex-col pt-10 place-items-center">
           <ul className="flex flex-col w-full pb-10 space-y-6 text-xs tracking-widest text-center text-white uppercase border-0 border-b border-gray-600">
             <li>
-              <Link href="/events">
+              <Link href="/gala">
                 <a onClick={toggleMenu} href="#">
                   Tickets and Events
                 </a>
@@ -119,13 +119,11 @@ function Header() {
           </div>
           <div className="flex">
             <p className="text-xs font-light tracking-widest uppercase">
-              <Link href="/events">
-                <a href="#" className="p-4 lg:hidden focus:outline-red ">
-                  Events
-                </a>
+              <Link href="/gala">
+                <a className="p-4 lg:hidden focus:outline-red ">Events</a>
               </Link>
-              <Link href="/events">
-                <a href="#" className="hidden p-4 lg:block focus:outline-red ">
+              <Link href="/gala">
+                <a className="hidden p-4 lg:block focus:outline-red ">
                   Tickets & Events
                 </a>
               </Link>
@@ -133,14 +131,20 @@ function Header() {
           </div>
           <div className="flex hidden lg:block">
             <p className="text-xs font-light tracking-widest uppercase">
-              <a href="#" className="hidden p-4 lg:block focus:outline-red ">
+              <a
+                href="http://jpgacademy.org/"
+                className="hidden p-4 lg:block focus:outline-red "
+              >
                 Visit
               </a>
             </p>
           </div>
           <div className="flex hidden lg:block">
             <p className="text-xs font-light tracking-widest uppercase">
-              <a href="#" className="hidden p-4 lg:block focus:outline-red ">
+              <a
+                href="https://jpgacademy.org/#contactus"
+                className="hidden p-4 lg:block focus:outline-red "
+              >
                 Contact Us
               </a>
             </p>

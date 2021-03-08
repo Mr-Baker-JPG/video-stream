@@ -109,7 +109,6 @@ function Watch({
       )}
 
       <Footer />
-      <ScrollToTop />
     </div>
   )
 }

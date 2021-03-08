@@ -14,11 +14,12 @@ import Footer from "components/Footer"
 import PlayerMine from "components/PlayerMine"
 import Login from "components/Login"
 import DonateForm from "components/DonateForm"
-import UserStatus from "components/UserStatus"
+import UserStatus from "components/controller/UserStatus"
 import ForcePlaySwitch from "components/controller/ForcePlaySwitch"
 import ForceUserTabs from "components/controller/ForceUserTabs"
 import ActivateLiveStreamSwitch from "components/controller/ActivateLiveStreamSwitch"
 import useAdminSocket from "hooks/useAdminSocket"
+import SignalLogs from "components/controller/SignalLogs"
 
 export const getServerSideProps = async context => {
   const ip =
@@ -50,7 +51,9 @@ export const getServerSideProps = async context => {
 
 const Controller = ({ isKeyActive = false, isIpActive = false, token }) => {
   const [isLive, setIsLive] = React.useState(false)
-  const { clients, sendUserTabs, sendToggleForcePlay } = useAdminSocket(token)
+  const { clients, sendUserTabs, sendToggleForcePlay, logs } = useAdminSocket(
+    token
+  )
 
   return (
     <div className="bg-gray-50">
@@ -86,15 +89,13 @@ const Controller = ({ isKeyActive = false, isIpActive = false, token }) => {
             {/* <ForcePlaySwitch onToggle={sendToggleForcePlay} /> */}
             <ActivateLiveStreamSwitch socket={clients} />
           </div>
-          <div className="grid w-full grid-cols-3 gap-2">
+          <div className="grid w-full grid-cols-3 gap-2 ">
             <UserStatus clients={clients} />
             <div className="p-2 border border-gray-300 shadow-lg">
               <h2 className="font-bold">Player</h2>
               <PlayerMine setIsPlaying={setIsLive} videoId="5qap5aO4i9A" />
             </div>
-            <div className="p-2 border border-gray-300 shadow-lg">
-              <h2 className="font-bold">Signal Logs</h2>
-            </div>
+            <SignalLogs logs={logs} />
           </div>
         </div>
       )}

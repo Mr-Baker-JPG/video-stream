@@ -7,8 +7,6 @@ import { Tab, Tabs, TabList, TabPanel, resetIdCounter } from "react-tabs"
 import socketIOClient from "socket.io-client"
 // import Pusher from "pusher-js"
 
-import useClientSocket from "hooks/useClientSocket"
-
 import styles from "styles/Home.module.css"
 import PlayingIcon from "components/icons/Play"
 import GalaHeader from "components/GalaHeader"
@@ -30,11 +28,25 @@ export const getServerSideProps = async context => {
   try {
     const check = await DB.checkKeyAndIp(key, ip)
     if (check.isKeyActive && check.isIpActive) {
-      return { props: { isKeyActive: true, isIpActive: true, token: key } }
+      return {
+        props: {
+          isKeyActive: true,
+          isIpActive: true,
+          token: key,
+          email: check.email,
+        },
+      }
     }
 
     if (check.isKeyActive && !check.isIpActive) {
-      return { props: { isKeyActive: true, isIpActive: false, token: key } }
+      return {
+        props: {
+          isKeyActive: true,
+          isIpActive: false,
+          token: key,
+          email: check.email,
+        },
+      }
     }
   } catch (error) {
     // console.log(error)
@@ -44,11 +56,18 @@ export const getServerSideProps = async context => {
       isKeyActive: false,
       isIpActive: false,
       token: key,
+      email: "",
     },
   }
 }
 
-function Watch({ isKeyActive = false, isIpActive = false, id = false, token }) {
+function Watch({
+  isKeyActive = false,
+  isIpActive = false,
+  id = false,
+  token,
+  email,
+}) {
   const isLive = false
 
   return (
@@ -78,7 +97,7 @@ function Watch({ isKeyActive = false, isIpActive = false, id = false, token }) {
           <Login />
         </div>
       ) : isLive ? (
-        <GalaContent token={token} />
+        <GalaContent token={token} email={email} />
       ) : (
         <main className="container grid grid-cols-1 p-4 px-4 mx-auto mb-12 ">
           <h2 className="text-2xl">
@@ -88,7 +107,6 @@ function Watch({ isKeyActive = false, isIpActive = false, id = false, token }) {
       )}
 
       <Footer />
-      <ScrollToTop />
     </div>
   )
 }

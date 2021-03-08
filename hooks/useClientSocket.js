@@ -1,9 +1,9 @@
 import * as React from "react"
 import socketIOClient from "socket.io-client"
 
-const ENDPOINT = "http://localhost:3456"
+const ENDPOINT = "https://socket.jpgapps.org"
 
-const useClientSocket = token => {
+const useClientSocket = (token, email) => {
   const [isPlaying, setIsPlaying] = React.useState(false)
   const [isActivated, setIsActivated] = React.useState(false)
   const [tab, setTab] = React.useState(0)
@@ -14,6 +14,7 @@ const useClientSocket = token => {
     tabIndex: tab,
     isPlaying: isPlaying,
     time,
+    email,
   })
 
   React.useEffect(() => {
@@ -43,8 +44,11 @@ const useClientSocket = token => {
     }
   }, [token])
 
-  const sendToken = time => {
-    socketRef.current.emit("gala:token", userToken(time))
+  const sendToken = (time, type = "") => {
+    socketRef.current.emit(
+      `gala:token${type ? `:${type}` : ""}`,
+      userToken(time)
+    )
   }
 
   return { isPlaying, setIsPlaying, sendToken, tab, setTab }

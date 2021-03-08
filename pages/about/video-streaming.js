@@ -24,7 +24,7 @@ export default function Home() {
           }}
         ></div>
       </section>
-      <main className="container px-10 pb-10 mx-auto ">
+      <main className="container px-10 pt-8 pb-10 mx-auto ">
         <h2 className="text-2xl">Video Streaming</h2>
         <p>
           Welcome to our digital help page. Below you will find a list of
@@ -36,7 +36,7 @@ export default function Home() {
           show time, simply click the link, enter the provided code and/or
           password, and enjoy!
         </p>
-        <p>
+        <p className="py-2">
           <b>CAUTION:</b>{" "}
           <span className="text-gray-600 underline">
             These links will only work on one device, so do NOT share with other
@@ -179,17 +179,17 @@ export default function Home() {
           </span>
           , we do have a couple of tips.{" "}
         </p>
-        <p>
+        <p className="py-2">
           Check for other devices using the internet. Is someone else streaming
           a movie or on a video call? Each device on your network uses part of
           your available internet, potentially decreasing the quality of your
           video stream.
-        </p>{" "}
-        <p>
+        </p>
+        <p className="py-2">
           Close apps or programs you are not using, it can help free up space to
           allow your computer to run faster.{" "}
         </p>
-        <p>
+        <p className="py-2">
           Ask for help! Is there a tech-savvy person in your family? See if they
           can help you.
         </p>

@@ -1,10 +1,11 @@
 import * as React from "react"
 import socketIOClient from "socket.io-client"
 
-const ENDPOINT = "http://localhost:3456"
+const ENDPOINT = "https://socket.jpgapps.org"
 
 const useAdminSocket = token => {
   const [clients, setClients] = React.useState([])
+  const [logs, setLogs] = React.useState([])
   const socketRef = React.useRef()
 
   React.useEffect(() => {
@@ -18,6 +19,13 @@ const useAdminSocket = token => {
       setClients(message)
       // messageHandler(message, emailsRef.current, setEmails)
     })
+
+    socketRef.current.on("gala:controller", (event, args) => {
+      if (event !== "gala:token:time") {
+        setLogs(curr => [{ event, args, time: new Date() }, ...curr])
+      }
+    })
+
     sendToken()
     return () => {
       socketRef.current.disconnect()
@@ -47,6 +55,7 @@ const useAdminSocket = token => {
     sendToggleForcePlay,
     sendToggleActivate,
     sendUserTabs,
+    logs,
   }
 }
 

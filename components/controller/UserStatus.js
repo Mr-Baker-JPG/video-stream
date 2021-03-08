@@ -102,7 +102,7 @@ const UserStatus = ({ clients }) => {
           {`${clients.length}/${emails.length}`} Users logged in
         </p>
       </div>
-      <dl className="overflow-x-scroll border h-96">
+      <dl className="overflow-x-scroll border border-b-0 h-96">
         {updateEmails(emails, clients).map(user => (
           <div key={user.email}>
             <dt className="flex flex-row items-center p-2 space-x-4 bg-gray-300 ">
