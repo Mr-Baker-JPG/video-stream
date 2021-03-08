@@ -33,7 +33,7 @@ const Sponsors = () => {
         autoPlay
         autoPlayStrategy="none"
         autoPlayInterval={1000}
-        animationDuration={1000}
+        animationDuration={15000}
         animationType="fadeout"
         infinite
         animationEasingFunction={"ease-in-out"}
