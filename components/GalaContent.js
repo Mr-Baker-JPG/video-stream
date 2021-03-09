@@ -69,7 +69,7 @@ const GalaContent = ({ token, email }) => {
           </Tab>
           <Tab>
             <div className="flex flex-row items-center justify-between px-4 py-2 text-gray-300 bg-blue-900 border rounded-md shadow-xl cursor-pointer hover:opacity-90">
-              WIN a St. Watercolor
+              WIN a St. Joseph Watercolor
             </div>
           </Tab>
           <li>
