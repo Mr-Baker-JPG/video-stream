@@ -1,39 +1,156 @@
+import Image from "next/image"
 import AliceCarousel from "react-alice-carousel"
 import "react-alice-carousel/lib/alice-carousel.css"
 
 const items = [
-  <img src="/images/sponsors/Acadiana Gastro Logo.png" />,
-  <img src="/images/sponsors/Order of Malta.png" />,
-  <img src="/images/sponsors/a-plus-glass-logo.png" />,
-  <img src="/images/sponsors/acadiana obgyn color.png" />,
-  <img src="/images/sponsors/Acadiana Pools.png" />,
-  <img src="/images/sponsors/Angelle Arch.jpg" />,
-  <img src="/images/sponsors/BB eye care color.jpeg" />,
-  <img src="/images/sponsors/Acadiana Gastro Logo.png" />,
-  <img src="/images/sponsors/Order of Malta.png" />,
-  <img src="/images/sponsors/BHCA color.png" />,
-  <img src="/images/sponsors/Bonadventure.jpeg" />,
-  <img src="/images/sponsors/Braniff Construction.png" />,
-  <img src="/images/sponsors/Dean Agency Logo Blue.jpg" />,
-  <img src="/images/sponsors/DT2 Blue.png" />,
-  <img src="/images/sponsors/Acadiana Gastro Logo.png" />,
-  <img src="/images/sponsors/Order of Malta.png" />,
-  <img src="/images/sponsors/Lake Area Anesthesia.png" />,
-  <img src="/images/sponsors/Serra Club.png" />,
-  <img src="/images/sponsors/Storage.png" />,
-  <img src="/images/sponsors/vestra.svg" />,
-  <img src="/images/sponsors/wexler animal hospital logo.jpg" />,
+  <div className="relative block bg-white border md:mx-24 md:px-24">
+    <Image
+      src="/images/sponsors/Fitted Sponsor Logo.jpg"
+      layout="responsive"
+      height={300}
+      width={600}
+    />
+  </div>,
+  <div className="relative block bg-white border md:mx-24 md:px-24">
+    <Image
+      src="/images/sponsors/Fitted Sponsor Logo2.jpg"
+      layout="responsive"
+      height={300}
+      width={600}
+    />
+  </div>,
+  <div className="relative block bg-white border md:mx-24 md:px-24">
+    <Image
+      src="/images/sponsors/Fitted Sponsor Logo3.jpg"
+      layout="responsive"
+      height={300}
+      width={600}
+    />
+  </div>,
+  <div className="relative block bg-white border md:mx-24 md:px-24">
+    <Image
+      src="/images/sponsors/Fitted Sponsor Logo4.jpg"
+      layout="responsive"
+      height={300}
+      width={600}
+    />
+  </div>,
+  <div className="relative block bg-white border md:mx-24 md:px-24">
+    <Image
+      src="/images/sponsors/Fitted Sponsor Logo5.jpg"
+      layout="responsive"
+      height={300}
+      width={600}
+    />
+  </div>,
+  <div className="relative block bg-white border md:mx-24 md:px-24">
+    <Image
+      src="/images/sponsors/Fitted Sponsor Logo6.jpg"
+      layout="responsive"
+      height={300}
+      width={600}
+    />
+  </div>,
+  <div className="relative block bg-white border md:mx-24 md:px-24">
+    <Image
+      src="/images/sponsors/Fitted Sponsor Logo7.jpg"
+      layout="responsive"
+      height={300}
+      width={600}
+    />
+  </div>,
+  <div className="relative block bg-white border md:mx-24 md:px-24">
+    <Image
+      src="/images/sponsors/Fitted Sponsor Logo8.jpg"
+      layout="responsive"
+      height={300}
+      width={600}
+    />
+  </div>,
+  <div className="relative block bg-white border md:mx-24 md:px-24">
+    <Image
+      src="/images/sponsors/Fitted Sponsor Logo9.jpg"
+      layout="responsive"
+      height={300}
+      width={600}
+    />
+  </div>,
+  <div className="relative block bg-white border md:mx-24 md:px-24">
+    <Image
+      src="/images/sponsors/Fitted Sponsor Logo10.jpg"
+      layout="responsive"
+      height={300}
+      width={600}
+    />
+  </div>,
+  <div className="relative block bg-white border md:mx-24 md:px-24">
+    <Image
+      src="/images/sponsors/Fitted Sponsor Logo11.jpg"
+      layout="responsive"
+      height={300}
+      width={600}
+    />
+  </div>,
+  <div className="relative block bg-white border md:mx-24 md:px-24">
+    <Image
+      src="/images/sponsors/Fitted Sponsor Logo12.jpg"
+      layout="responsive"
+      height={300}
+      width={600}
+    />
+  </div>,
+  <div className="relative block bg-white border md:mx-24 md:px-24">
+    <Image
+      src="/images/sponsors/Fitted Sponsor Logo13.jpg"
+      layout="responsive"
+      height={300}
+      width={600}
+    />
+  </div>,
+  <div className="relative block bg-white border md:mx-24 md:px-24">
+    <Image
+      src="/images/sponsors/Fitted Sponsor Logo14.jpg"
+      layout="responsive"
+      height={300}
+      width={600}
+    />
+  </div>,
+  <div className="relative block bg-white border md:mx-24 md:px-24">
+    <Image
+      src="/images/sponsors/Fitted Sponsor Logo15.jpg"
+      layout="responsive"
+      height={300}
+      width={600}
+    />
+  </div>,
+  <div className="relative block bg-white border md:mx-24 md:px-24">
+    <Image
+      src="/images/sponsors/Fitted Sponsor Logo16.jpg"
+      layout="responsive"
+      height={300}
+      width={600}
+    />
+  </div>,
+  <div className="relative block bg-white border md:mx-24 md:px-24">
+    <Image
+      src="/images/sponsors/Fitted Sponsor Logo17.jpg"
+      layout="responsive"
+      height={300}
+      width={600}
+    />
+  </div>,
 ]
 
 const Sponsors = () => {
   return (
-    <div className="w-full min-h-0 px-8 py-8 mx-auto mt-8 bg-gray-400 border border-gray-300 rounded-lg shadow-lg">
+    <div className="mx-auto mt-4 text-center">
       <p className="mb-2 font-bold">Thanks to our sponsors:</p>
       <AliceCarousel
+        className="shadow-xl"
         autoPlay
         autoPlayStrategy="none"
-        autoPlayInterval={1000}
-        animationDuration={15000}
+        autoPlayInterval={15000}
+        animationDuration={1000}
         animationType="fadeout"
         infinite
         animationEasingFunction={"ease-in-out"}
