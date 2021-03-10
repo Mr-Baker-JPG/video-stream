@@ -146,7 +146,6 @@ const Sponsors = () => {
     <div className="mx-auto mt-4 text-center">
       <p className="mb-2 font-bold">Thanks to our sponsors:</p>
       <AliceCarousel
-        className="shadow-xl"
         autoPlay
         autoPlayStrategy="none"
         autoPlayInterval={15000}

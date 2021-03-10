@@ -122,13 +122,14 @@ const videoReducer = (state, action) => {
         wasPlaying: state.isPlaying,
       }
     case VIDEO_SEEKING:
+      state.player.current.seekTo(action.payload)
       return {
         ...state,
         position: action.payload,
         seeking: true,
       }
     case VIDEO_STOP_SEEKING:
-      console.log("STOP SEEKING", state)
+      state.player.current.seekTo(action.payload)
       return {
         ...state,
         position: action.payload,
@@ -136,7 +137,6 @@ const videoReducer = (state, action) => {
         isPlaying: state.wasPlaying,
       }
     case VIDEO_UPDATE_POSITION:
-      // console.log("UPDATE", state.seeking, action.payload)
       return state.seeking
         ? state
         : {
@@ -145,10 +145,9 @@ const videoReducer = (state, action) => {
             loaded: action.payload.loaded || state.loaded,
           }
     case VIDEO_SET_PLAYER:
-      console.log("Setting player")
       return {
         ...state,
-        player: action.payload,
+        player: action.payload.player,
       }
     case VIDEO_SET_SIZE:
       return {
@@ -171,6 +170,8 @@ const videoReducer = (state, action) => {
 const Player = ({ videoId, forcePlay, setIsPlaying, setTime = () => {} }) => {
   const [loaded, setLoaded] = React.useState(false)
   const [player, setPlayer] = React.useState(null)
+  const [displaySeeker, setDisplaySeeker] = React.useState(false)
+  const pRef = React.useRef()
   const width = useCurrentWidth()
   const [previousWidth, setPreviousWidth] = React.useState(0)
   const [videoState, videoDispatch] = React.useReducer(videoReducer, {
@@ -183,13 +184,16 @@ const Player = ({ videoId, forcePlay, setIsPlaying, setTime = () => {} }) => {
     position: 0,
     seeking: false,
     error: null,
-    player: null,
+    player: pRef,
     width: 0,
     height: 0,
   })
 
-  const playerRef = player => {
-    setPlayer(player)
+  const playerRef = p => {
+    if (!player) {
+      videoDispatch({ type: VIDEO_SET_PLAYER, payload: { player: p } })
+    }
+    setPlayer(p)
   }
   const coverRef = React.useRef()
   const videoWrapperRef = React.useRef()
@@ -228,12 +232,9 @@ const Player = ({ videoId, forcePlay, setIsPlaying, setTime = () => {} }) => {
   React.useEffect(() => {
     if (forcePlay) {
       setIsPlaying(true)
-      console.log("forcing to play")
       videoDispatch({ type: VIDEO_PLAY })
-      console.log(videoState)
     } else {
       setIsPlaying(false)
-      console.log("forcing to stop")
       videoDispatch({ type: VIDEO_PAUSE })
     }
   }, [forcePlay])
@@ -254,7 +255,6 @@ const Player = ({ videoId, forcePlay, setIsPlaying, setTime = () => {} }) => {
           videoWrapperRef.current.style.top = "0px"
           if (!screenfull.isFullscreen) handleResize(previousWidth)
         }
-        // console.log("Am I fullscreen?", screenfull.isFullscreen ? "Yes" : "No")
       })
     }
   }, [])
@@ -276,7 +276,6 @@ const Player = ({ videoId, forcePlay, setIsPlaying, setTime = () => {} }) => {
       }px`
     } else {
       videoWrapperRef.current.style.top = 0
-      console.log(coverRef.current.offsetWidth, previousWidth)
     }
   }
 
@@ -287,7 +286,6 @@ const Player = ({ videoId, forcePlay, setIsPlaying, setTime = () => {} }) => {
   }, [width])
 
   const handleFullScreen = () => {
-    console.log("setting width", coverRef.current.offsetWidth)
     setPreviousWidth(coverRef.current.offsetWidth)
 
     screenfull.request(findDOMNode(coverRef.current))
@@ -306,19 +304,27 @@ const Player = ({ videoId, forcePlay, setIsPlaying, setTime = () => {} }) => {
   }
 
   const handleSeekMouseDown = e => {
-    console.log("PRESSED MOUSE @", Math.round(e.target.value * 100) + "%")
     videoDispatch({ type: VIDEO_START_SEEKING })
   }
 
   const handleSeekChange = e => {
-    console.log("SEEKED @", Math.round(e.target.value * 100) + "%")
-    videoDispatch({ type: VIDEO_SEEKING, payload: e.target.value })
+    videoDispatch({ type: VIDEO_SEEKING, payload: parseFloat(e.target.value) })
+    // videoDispatch({
+    //   type: VIDEO_UPDATE_POSITION,
+    //   payload: parseFloat(e.target.value),
+    // })
   }
 
   const handleSeekMouseUp = e => {
-    console.log("LIFED MOUSE @", Math.round(videoState.position * 100) + "%")
-    videoDispatch({ type: VIDEO_STOP_SEEKING, payload: e.target.value })
-    player.seekTo(parseFloat(videoState.position))
+    videoDispatch({
+      type: VIDEO_STOP_SEEKING,
+      payload: parseFloat(e.target.value),
+    })
+    player.seekTo(parseFloat(parseFloat(e.target.value)))
+    // videoDispatch({
+    //   type: VIDEO_UPDATE_POSITION,
+    //   payload: parseFloat(e.target.value),
+    // })
   }
 
   return (
@@ -336,7 +342,7 @@ const Player = ({ videoId, forcePlay, setIsPlaying, setTime = () => {} }) => {
             url={`https://www.youtube.com/watch?v=${videoId}`}
             // onPlay={}
             // onPause={}
-            ref={playerRef}
+            ref={pRef}
             onReady={onReady}
             played={videoState.played}
             playing={videoState.isPlaying}
@@ -364,7 +370,7 @@ const Player = ({ videoId, forcePlay, setIsPlaying, setTime = () => {} }) => {
           />
         </div>
       </div>
-      {/* <div className="relative w-full p-0 m-0 bg-gray-600">
+      <div className="relative w-full h-6 p-0 m-0 bg-gray-600">
         <input
           name="videoSeeker"
           value={videoState.position}
@@ -375,25 +381,14 @@ const Player = ({ videoId, forcePlay, setIsPlaying, setTime = () => {} }) => {
           onChange={handleSeekChange}
           onMouseUp={handleSeekMouseUp}
           type="range"
-          className="w-full seek"
+          className={` w-full rounded-none audio other`} // seek
         />
-        <label class="hidden" htmlFor="videoSeeker">
+        <label className="hidden" htmlFor="videoSeeker">
           Video Seeker
         </label>
-      </div> */}
+      </div>
       {/* TODO: Fixing the seeker */}
-      <div
-        className="relative z-50 w-full h-1 pt-0 bg-white cursor-pointer group "
-        onClick={e =>
-          videoDispatch({
-            type: VIDEO_UPDATE_POSITION,
-            payload: {
-              played: e.nativeEvent.offsetX / e.target.offsetWidth,
-              loaded: player.loaded,
-            },
-          })
-        }
-      >
+      {/* <div className="relative z-50 w-full h-1 pt-0 bg-white cursor-pointer group ">
         <div className="flex h-2 mb-4 overflow-hidden text-xs bg-pink-200 ">
           <div
             style={{
@@ -402,6 +397,9 @@ const Player = ({ videoId, forcePlay, setIsPlaying, setTime = () => {} }) => {
             className="flex flex-col justify-center text-center text-white bg-pink-500 shadow-none whitespace-nowrap"
           ></div>
           <div
+            onMouseDown={handleSeekMouseDown}
+            onChange={handleSeekChange}
+            onMouseUp={handleSeekMouseUp}
             className="absolute flex items-center w-3 h-3 m-0 bg-pink-500 rounded-full opacity-0 group-hover:opacity-100 "
             style={{
               bottom: "2px",
@@ -415,7 +413,7 @@ const Player = ({ videoId, forcePlay, setIsPlaying, setTime = () => {} }) => {
             className="flex flex-col justify-center text-center text-white bg-gray-500 shadow-none whitespace-nowrap"
           ></div>
         </div>
-      </div>
+      </div> */}
       {/* {Math.round(videoState.position * 10000) / 100 + "%"} */}
       <div className="flex justify-between w-full py-1">
         <div className="flex flex-row w-full space-x-2">

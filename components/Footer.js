@@ -5,7 +5,7 @@ const Footer = () => {
     <footer className="flex flex-col pt-8 bg-gray-400 place-items-center">
       <div className="pb-4 font-serif text-lg">Connect with JPG</div>
       <div className="flex pb-6 space-x-8 text-center place-items-center">
-        <a href="https://www.facebook.com/JPGacademy">
+        <a target="_blank" href="https://www.facebook.com/JPGacademy">
           <svg
             className="w-6 h-6"
             viewBox="0 0 16.5 32"
@@ -18,7 +18,7 @@ const Footer = () => {
             ></path>
           </svg>
         </a>
-        <a href="https://www.instagram.com/jpgacademy/">
+        <a target="_blank" href="https://www.instagram.com/jpgacademy/">
           <svg
             className="w-6 h-6"
             height="24"
@@ -41,15 +41,22 @@ const Footer = () => {
             </Link>
           </li>
           <li>
-            <a href="https://jpgacademy.org">Visit</a>
+            <a target="_blank" href="https://jpgacademy.org">
+              Visit
+            </a>
           </li>
           <li>
-            <a href="https://jpgacademy.org/#contactus">Contact Us</a>
+            <a target="_blank" href="https://jpgacademy.org/#contactus">
+              Contact Us
+            </a>
           </li>
         </ul>
       </nav>
       <div className="px-4 py-8 font-thin uppercase text-xss">
-        © 2021 <a href="https://jpgacademy.org/">John Paul the Great Academy</a>{" "}
+        © 2021{" "}
+        <a target="_blank" href="https://jpgacademy.org/">
+          John Paul the Great Academy
+        </a>{" "}
         | 1522 Carmel Drive, Lafayette, LA
       </div>
     </footer>

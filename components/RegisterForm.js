@@ -52,7 +52,7 @@ function RegisterForm() {
 
   return (
     <div className="w-full p-8 border border-gray-300 ">
-      <div id="causeview_iframe" class="actionpages-Container"></div>
+      <div id="causeview_iframe" className="actionpages-Container"></div>
     </div>
   )
 }
