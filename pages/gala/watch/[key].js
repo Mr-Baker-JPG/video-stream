@@ -68,7 +68,7 @@ function Watch({
   token,
   email,
 }) {
-  const isLive = false
+  const isLive = true
 
   return (
     <div className="bg-gray-50">

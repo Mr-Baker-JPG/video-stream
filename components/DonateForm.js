@@ -50,11 +50,8 @@ function DonateForm() {
   React.useEffect(() => {
     if (loaded.customScripts && loaded.thunderScripts) {
       window.$cvf(async function () {
-        CVF.Setup = { Allocation: null, RuntimeOverrides: [{ wz: "1" }] }
-        CVF.Setup.Allocation = CVF.CreateAllocationOverride(
-          "",
-          "a0M37000000N2mKEAS"
-        )
+        CVF.Setup = { Allocation: null, RuntimeOverrides: [] }
+        CVF.Setup.RuntimeOverrides = [{ wz: "1" }]
         await CVF.Init(
           "34dbed70-83ad-4df9-abd8-93c4ccb6bf82",
           "cv_genform",
