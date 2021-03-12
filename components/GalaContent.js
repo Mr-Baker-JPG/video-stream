@@ -88,7 +88,7 @@ const GalaContent = ({ token, email }) => {
               setTime={setTime}
               setIsPlaying={setIsPlaying}
               forcePlay={isPlaying}
-              videoId="5qap5aO4i9A"
+              videoId="JlIKDllvqk8"
             />
           </TabPanel>
           <TabPanel>
