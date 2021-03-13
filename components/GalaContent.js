@@ -18,7 +18,7 @@ const GalaContent = ({ token, email }) => {
     token,
     email
   )
-  const isLive = false
+  const isLive = true
   const [time, setTime] = React.useState(0)
 
   resetIdCounter()
