@@ -23,7 +23,7 @@ const statusReducer = (state, action) => {
     case SUCCESS:
       return { ...state, status: STATUS_SUCCESS, msg: action.payload }
     case FAILURE:
-      console.log(action)
+      // console.log(action)
       return { ...state, status: STATUS_FAILURE, msg: action.payload }
     default:
       return { ...state }
@@ -49,7 +49,7 @@ function Login() {
         body: JSON.stringify({ email }),
       })
     ).json()
-    console.log(data)
+    // console.log(data)
     if (data.type === "SUCCESS") {
       dispatch({ type: SUCCESS, payload: data.msg })
       e.target.elements.email.value = ""

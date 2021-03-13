@@ -14,9 +14,9 @@ const videoReducer = async (state, action) => {
   switch (action.type) {
     case VIDEO_PLAY:
       if (state.player) {
-        console.log("PLAYING", state.player)
+        // console.log("PLAYING", state.player)
         await state.player.playVideo()
-        console.log(`STATE: ${state.player.getPlayerState()}`)
+        // console.log(`STATE: ${state.player.getPlayerState()}`)
         return { ...state, isPlaying: true, position: "78%" }
       }
       return { ...state }

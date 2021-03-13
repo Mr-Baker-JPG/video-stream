@@ -65,7 +65,7 @@ function DonateForm() {
   }, [loaded])
 
   React.useEffect(() => {
-    console.log(form)
+    // console.log(form)
   }, [form])
 
   return (

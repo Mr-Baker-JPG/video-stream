@@ -28,7 +28,7 @@ const statusReducer = (state, action) => {
     case SUCCESS:
       return { ...state, status: STATUS_SUCCESS, msg: action.payload }
     case FAILURE:
-      console.log(action)
+      // console.log(action)
       return { ...state, status: STATUS_FAILURE, msg: action.payload }
     default:
       return { ...state }

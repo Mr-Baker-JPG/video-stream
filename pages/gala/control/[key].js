@@ -29,7 +29,7 @@ export const getServerSideProps = async context => {
 
   try {
     const check = await DB.checkAdminKeyAndIp(key, ip)
-    console.log(check)
+    // console.log(check)
     if (check.isKeyActive && check.isIpActive) {
       return { props: { isKeyActive: true, isIpActive: true, token: key } }
     }

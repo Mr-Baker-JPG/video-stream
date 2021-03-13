@@ -18,7 +18,7 @@ function Gala() {
         body: JSON.stringify(email),
       })
     ).json()
-    console.log(data)
+    // console.log(data)
   }
 
   return (

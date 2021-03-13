@@ -5,7 +5,7 @@ export default (req, res) => {
   switch (method) {
     case "POST":
       try {
-        console.log(body)
+        // console.log(body)
         res.status(200).end(`Success`)
         return
       } catch (err) {

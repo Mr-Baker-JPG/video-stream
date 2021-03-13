@@ -26,7 +26,7 @@ const useClientSocket = (token, email) => {
     })
 
     socketRef.current.on("gala:play", state => {
-      console.log(`Recieved orders to ${state ? "PLAY" : "STOP"}`)
+      // console.log(`Recieved orders to ${state ? "PLAY" : "STOP"}`)
       setIsPlaying(state)
     })
 
