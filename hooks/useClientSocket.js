@@ -40,7 +40,7 @@ const useClientSocket = (token, email) => {
 
     setInterval(() => {
       sendToken()
-    }, 30000)
+    }, 100000)
 
     sendToken()
 
