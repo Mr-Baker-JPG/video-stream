@@ -1,5 +1,6 @@
 import * as React from "react"
 import socketIOClient from "socket.io-client"
+import { setInterval } from "timers"
 
 const ENDPOINT = "https://socket.jpgapps.org"
 
@@ -36,6 +37,10 @@ const useClientSocket = (token, email) => {
     socketRef.current.on("gala:activate-client", state => {
       // this one might be better through the DB
     })
+
+    setInterval(() => {
+      sendToken()
+    }, 30000)
 
     sendToken()
 
