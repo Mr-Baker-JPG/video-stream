@@ -93,7 +93,7 @@ const Controller = ({ isKeyActive = false, isIpActive = false, token }) => {
             <UserStatus clients={clients} />
             <div className="p-2 border border-gray-300 shadow-lg">
               <h2 className="font-bold">Player</h2>
-              <PlayerMine setIsPlaying={setIsLive} videoId="5qap5aO4i9A" />
+              <PlayerMine setIsPlaying={setIsLive} videoId="JlIKDllvqk8" />
             </div>
             <SignalLogs logs={logs} />
           </div>
